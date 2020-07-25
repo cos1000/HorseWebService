@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace" monitorInterval="30" >
+    <Properties>
+        <Property name="basePath">./logs</Property>
+        <Property name="filename">./logs/horse_file.log</Property>
+        <Property name="csvLog.fileName">./logs/horse_file.log</Property>
+        <Property name="file-header">column1,column2,column3</Property>
+    </Properties>
+ 
+    <Appenders>
+        <RollingFile name="fileLogger" fileName="${basePath}/horse_rolling_file.log" >
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="2" />
+        </RollingFile>
+ 
+        <RollingFile name="csvFile" 
+                     fileName="${csvLog.fileName}.csv"
+                     >
+            <CsvParameterLayout delimiter="," header="${file-header}\n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="2" />
+        </RollingFile>
+ 
+        <!--
+        <File name="MyFile" fileName="${filename}">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        -->
+        
+        <RollingFile name="MyFile" fileName="${basePath}/file.log" filePattern="${basePath}/horse_file.log.%d{yyyy-MM-dd}.%i" immediateFlush="true" >
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="2" />
+        </RollingFile>
+ 
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout   pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info" additivity="false">
+            <!-- appender-ref ref="console" level="error" / -->
+            <!-- appender-ref ref="fileLogger" level="debug" / -->
+            <appender-ref ref="MyFile" level="info" />
+            <!-- appender-ref ref="csvFile" level="info" / -->
+        </Root>
+    </Loggers>
+</Configuration>
