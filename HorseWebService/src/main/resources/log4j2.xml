@@ -38,7 +38,7 @@
         </File>
         -->
         
-        <RollingFile name="MyFile" fileName="${basePath}/file.log" filePattern="${basePath}/horse_file.log.%d{yyyy-MM-dd}.%i" immediateFlush="true" >
+        <RollingFile name="MyFile" fileName="${basePath}/horse_file.log" filePattern="${basePath}/horse_file.log.%d{yyyy-MM-dd}.%i" immediateFlush="true" >
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
             </PatternLayout>

@@ -4,18 +4,34 @@
     <description>
             Persistence unit for the JPA tutorial of the Hibernate Getting Started Guide
     </description>
-    <class>com.mensa.horsewebservice.model.FootballHeadeer</class>
+    <class>com.mensa.horsewebservice.model.CornerHighLow</class>
+    <class>com.mensa.horsewebservice.model.CorrectScore</class>
+    <class>com.mensa.horsewebservice.model.Coupon</class>
+    <class>com.mensa.horsewebservice.model.FirstCorrectScore</class>
+    <class>com.mensa.horsewebservice.model.FirstGoalHighLow</class>
+    <class>com.mensa.horsewebservice.model.FirstHomeAwayDraw</class>
+    <class>com.mensa.horsewebservice.model.FirstTeamToScore</class>
+    <class>com.mensa.horsewebservice.model.Football</class>
+    <class>com.mensa.horsewebservice.model.FootballResult</class>
+    <class>com.mensa.horsewebservice.model.GoalHighLow</class>
+    <class>com.mensa.horsewebservice.model.GoalHighLowDetail</class>
+    <class>com.mensa.horsewebservice.model.HalfFullHomeAwayDraw</class>
+    <class>com.mensa.horsewebservice.model.HomeAwayDraw</class>
+    <class>com.mensa.horsewebservice.model.League</class>
+    <class>com.mensa.horsewebservice.model.OddEven</class>
+    <class>com.mensa.horsewebservice.model.Team</class>
+    <class>com.mensa.horsewebservice.model.TotalGoal</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/horse"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/horse_trading"/>
       <property name="javax.persistence.jdbc.user" value="matt"/>
       <property name="javax.persistence.jdbc.password" value="workflow"/>
-      <property name="hibernate.show_sql" value="false"/>
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="create"/>
       <property name="hibernate.connection.pool_size" value="10"/>
       <property name="hibernate.order_inserts" value="true"/>
       <property name="hibernate.order_updates" value="true"/>
-      <property name="hibernate.jdbc.batch_size" value="1000"/>
+      <!-- property name="hibernate.jdbc.batch_size" value="1000"/ -->
       <property name="logging.level.org.hibernate.SQL" value="INFO"/>
     </properties>
   </persistence-unit>
