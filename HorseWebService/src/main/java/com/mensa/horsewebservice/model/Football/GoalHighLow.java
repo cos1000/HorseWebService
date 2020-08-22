@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
@@ -64,6 +65,7 @@ public class GoalHighLow implements Serializable {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
+    @JoinColumn(name = "detail_id")
     private List<GoalHighLowDetail> LINELIST = new ArrayList<>();
     
 }

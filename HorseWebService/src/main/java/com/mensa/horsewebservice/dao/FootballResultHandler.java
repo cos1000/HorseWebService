@@ -7,6 +7,7 @@ package com.mensa.horsewebservice.dao;
 
 import com.mensa.horsewebservice.model.Football.FootballResult;
 import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
@@ -76,5 +77,11 @@ public class FootballResultHandler implements IHandler<FootballResult> {
         return handler.Delete(record); 
     }
 
+    public boolean Delete() {
+        String sql = "delete from FootballResult record where record.created_at = null";
+        Query query = RecordHandler.getEntityManager().createNativeQuery(sql); 
+        query.executeUpdate(); 
+        return true; 
+    }
     
 }

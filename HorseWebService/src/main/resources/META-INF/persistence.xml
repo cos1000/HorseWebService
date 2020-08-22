@@ -27,7 +27,7 @@
       <property name="javax.persistence.jdbc.user" value="matt"/>
       <property name="javax.persistence.jdbc.password" value="workflow"/>
       <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.connection.pool_size" value="10"/>
       <property name="hibernate.order_inserts" value="true"/>
       <property name="hibernate.order_updates" value="true"/>

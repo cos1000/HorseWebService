@@ -9,17 +9,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.Data;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -29,8 +24,8 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Data
-@Table(name = "first_goal_high_low", uniqueConstraints = {@UniqueConstraint(columnNames = { "ID" })})
-public class FirstGoalHighLow implements Serializable {
+@Table(name = "corner_goal_high_low_detail")
+public class CornerHighLowDetail implements Serializable {
     
     @Id
     @GeneratedValue(generator="increment")
@@ -43,30 +38,25 @@ public class FirstGoalHighLow implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updated_at; 
 
-    @Column(name = "ID")
-    private String ID;
+    @Column(name = "LINENUM")
+    private String LINENUM;
 
-    @Column(name = "POOLSTATUS")
-    private String POOLSTATUS;
+    @Column(name = "MAINLINE")
+    private String MAINLINE;
 
-    @Column(name = "ET")
-    private String ET;
+    @Column(name = "LINESTATUS")
+    private String LINESTATUS;
 
-    @Column(name = "INPLAY")
-    private String INPLAY;
+    @Column(name = "LINEORDER")
+    private String LINEORDER;
 
-    @Column(name = "ALLUP")
-    private String ALLUP;
+    @Column(name = "LINE")
+    private String LINE;
 
-    @Column(name = "Cur")
-    private String Cur;
+    @Column(name = "L")
+    private String L;
 
-    @OneToMany(
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    @JoinColumn(name = "detail_id")
-    private List<FirstGoalHighLowDetail> LINELIST = new ArrayList<>();
-    
+    @Column(name = "H")
+    private String H;
 
 }

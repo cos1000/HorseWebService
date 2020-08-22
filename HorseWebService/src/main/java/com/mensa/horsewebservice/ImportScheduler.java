@@ -6,14 +6,17 @@
 package com.mensa.horsewebservice;
 
 import com.google.gson.Gson;
+import com.mensa.horsewebservice.dao.CornerHighLowDetailHandler;
 import com.mensa.horsewebservice.dao.CornerHighLowHandler;
 import com.mensa.horsewebservice.dao.CorrectScoreHandler;
 import com.mensa.horsewebservice.dao.CouponHandler;
 import com.mensa.horsewebservice.dao.FirstCorrectScoreHandler;
+import com.mensa.horsewebservice.dao.FirstGoalHighLowDetailHandler;
 import com.mensa.horsewebservice.dao.FirstGoalHighLowHandler;
 import com.mensa.horsewebservice.dao.FirstHomeAwayDrawHandler;
 import com.mensa.horsewebservice.dao.FirstTeamToScoreHandler;
 import com.mensa.horsewebservice.dao.FootballHandler;
+import com.mensa.horsewebservice.dao.FootballResultHandler;
 import com.mensa.horsewebservice.dao.GoalHighLowDetailHandler;
 import com.mensa.horsewebservice.dao.GoalHighLowHandler;
 import com.mensa.horsewebservice.dao.HalfFullHomeAwayDrawHandler;
@@ -33,6 +36,8 @@ import com.mensa.horsewebservice.model.Football.FirstGoalHighLow;
 import com.mensa.horsewebservice.model.Football.FirstHomeAwayDraw;
 import com.mensa.horsewebservice.model.Football.FirstTeamToScore;
 import com.mensa.horsewebservice.model.Football.Football;
+import com.mensa.horsewebservice.model.Football.FootballResult;
+import com.mensa.horsewebservice.model.Football.FootballResultRecord;
 import com.mensa.horsewebservice.model.Football.GoalHighLow;
 import com.mensa.horsewebservice.model.Football.HalfFullHomeAwayDraw;
 import com.mensa.horsewebservice.model.Football.Handicap;
@@ -58,7 +63,7 @@ import org.apache.logging.log4j.Logger;
 public class ImportScheduler implements ServletContextListener {
     private static Logger log = LogManager.getLogger(ImportScheduler.class);
     private ScheduledExecutorService scheduler;
-    private static Boolean isRun = false; 
+    private int currentDay = -1; 
     private String UrlAll = "https://bet.hkjc.com/football/getJSON.aspx?jsontype=index.aspx"; 
     private String UrlOne = "https://bet.hkjc.com/football/getJSON.aspx?jsontype=odds_allodds.aspx&matchid=";
     private String UrlResult = "https://bet.hkjc.com/football/getJSON.aspx?jsontype=results.aspx";
@@ -81,16 +86,34 @@ public class ImportScheduler implements ServletContextListener {
     public class ImportJob implements Runnable {
         @Override
         public void run() {
-            if (!isRun) {
-                isRun = true; 
-                log.info("Started ImportJob");
-                Downloader downloader = new Downloader(); 
-                String contentJson = downloader.GetResponseFromUrl(UrlAll); 
-                Gson gson = new Gson();
-                Football[] records = gson.fromJson(contentJson, Football[].class); 
-                log.info("" + records.length);
-                FootballHandler footballHandler = new FootballHandler(); 
-                for (int counter = 0; counter < records.length; counter++) {
+            int day = LocalDateTime.now().getDayOfYear(); 
+            int hour = LocalDateTime.now().getHour(); 
+            if (day == currentDay || hour < 8) return; 
+            
+            currentDay = day; 
+
+            log.info("Started ImportJob");
+            Downloader downloader = new Downloader(); 
+            String contentJson = downloader.GetResponseFromUrl(UrlAll); 
+            Gson gson = new Gson();
+            Football[] records = null; 
+            for (int checkError = 0; checkError < 10; checkError++) {
+                try {
+                    Thread.sleep(1000);
+                    records = gson.fromJson(contentJson, Football[].class); 
+                    log.info("" + records.length);
+                    break; 
+                } catch (Exception e) {
+                    log.error(contentJson, e); 
+                    contentJson = downloader.GetResponseFromUrl(UrlAll); 
+                    if (checkError >= 9) currentDay = -1; 
+                }
+            }
+            if (records == null) return; 
+            FootballHandler footballHandler = new FootballHandler(); 
+            for (int counter = 0; counter < records.length; counter++) {
+                try {
+                    Thread.sleep(1000);
 log.info("Step 01"); 
                     Football football = footballHandler.Get(records[counter]); 
 log.info("Step 02"); 
@@ -99,8 +122,21 @@ log.info("Step 03");
 log.info(records[counter].getMatchID()); 
                         contentJson = downloader.GetResponseFromUrl(UrlOne + records[counter].getMatchID()); 
 log.info("Step 04"); 
-log.info(contentJson); 
-                        Football[] actualRecords = gson.fromJson(contentJson, Football[].class); 
+//log.info(contentJson); 
+                        Football[] actualRecords = null; 
+                        for (int checkError = 0; checkError < 10; checkError++) {
+                            try {
+                                actualRecords = gson.fromJson(contentJson, Football[].class); 
+                                break; 
+                            } catch (Exception e) {
+                                log.info(contentJson); 
+                                log.error(records[counter].getMatchID(), e);
+                                Thread.sleep(30000);
+                                contentJson = downloader.GetResponseFromUrl(UrlOne + records[counter].getMatchID()); 
+                                if (checkError >= 9) currentDay = -1; 
+                            }                                
+                        }
+                        if (actualRecords == null) continue; 
 log.info("Step 05"); 
                         Football actualFootball = null; 
 log.info("Step 06"); 
@@ -112,7 +148,7 @@ log.info("Step 06");
                                 break; 
                             }
                         }
-                        
+
 log.info("Step 07"); 
 log.info(actualFootball.getMatchID()); 
                         // <editor-fold desc="Coupon">
@@ -181,8 +217,14 @@ log.info("Step 11");
                         // <editor-fold desc="Corner High Low">
                         if (actualFootball.getChlodds() != null) {
                             CornerHighLowHandler cornerHighLowHandler = new CornerHighLowHandler(); 
+                            CornerHighLowDetailHandler cornerHighLowDetailHandler = new CornerHighLowDetailHandler(); 
                             actualFootball.getChlodds().setCreated_at(LocalDateTime.now());
                             actualFootball.getChlodds().setUpdated_at(LocalDateTime.now());
+                            for (int counter3 = 0; counter3 < actualFootball.getChlodds().getLINELIST().size(); counter3++) {
+                                actualFootball.getChlodds().getLINELIST().get(counter3).setCreated_at(LocalDateTime.now());
+                                actualFootball.getChlodds().getLINELIST().get(counter3).setUpdated_at(LocalDateTime.now());
+                                actualFootball.getChlodds().getLINELIST().set(counter3, cornerHighLowDetailHandler.CreateAndReturn(actualFootball.getChlodds().getLINELIST().get(counter3))); 
+                            }
                             CornerHighLow cornerHighLow = cornerHighLowHandler.CreateAndReturn(actualFootball.getChlodds()); 
                             if (cornerHighLow != null) actualFootball.setChlodds(cornerHighLow);
                         }
@@ -211,7 +253,7 @@ log.info("Step 14");
                         // <editor-fold desc="First Goal High Low">
                         if (actualFootball.getFhlodds() != null) {
                             FirstGoalHighLowHandler firstGoalHighLowHandler = new FirstGoalHighLowHandler(); 
-                            GoalHighLowDetailHandler firstGoalHighLowDetailHandler = new GoalHighLowDetailHandler(); 
+                            FirstGoalHighLowDetailHandler firstGoalHighLowDetailHandler = new FirstGoalHighLowDetailHandler(); 
                             actualFootball.getFhlodds().setCreated_at(LocalDateTime.now());
                             actualFootball.getFhlodds().setUpdated_at(LocalDateTime.now());
                             for (int counter3 = 0; counter3 < actualFootball.getHilodds().getLINELIST().size(); counter3++) {
@@ -319,7 +361,7 @@ log.info("Step 23");
                             if (totalGoal != null) actualFootball.setTtgodds(totalGoal);
                         }
                         // </editor-fold>
-                        
+
 log.info("Step 99"); 
                         actualFootball.setCreated_at(LocalDateTime.now());
                         actualFootball.setUpdated_at(LocalDateTime.now());
@@ -329,8 +371,56 @@ log.info("Step 99");
                             log.info("Fail Create"); 
                         }
                     }
+                } catch (Exception e) {
+                    log.error("Error: "+counter, e);
+                    currentDay = -1; 
                 }
             }
+log.info("Step 101");
+            FootballResultRecord[] footballResultRecords = null; 
+            contentJson = downloader.GetResponseFromUrl(UrlResult); 
+            for (int checkError = 0; checkError < 10; checkError++) {
+                try {
+                    Thread.sleep(1000);
+                    footballResultRecords = gson.fromJson(contentJson, FootballResultRecord[].class); 
+                    break; 
+                } catch (Exception e) {
+                    log.error(contentJson, e); 
+                    contentJson = downloader.GetResponseFromUrl(UrlAll); 
+                    if (checkError >= 9) currentDay = -1; 
+                }
+            }
+log.info("Step 102");
+            for (int counter = 0; counter < footballResultRecords.length; counter++) {
+                if (footballResultRecords[counter] != null && "ActiveMatches".equals(footballResultRecords[counter].getName())) {
+                    records = footballResultRecords[counter].getMatches(); 
+                    for (int counter2 = 0; counter2 < records.length; counter2++) {
+                        try {
+                            if (records[counter2] == null || records[counter2].getResults() == null || records[counter2].getResults().getCRS() == null || records[counter2].getResults().getCRS().equals("-")) continue; 
+                            Football football = footballHandler.Get(records[counter2]);
+                            if (football != null) {
+                                football.getResults().setCRS(records[counter2].getResults().getCRS());
+                                football.getResults().setFCS(records[counter2].getResults().getFCS());
+                                football.getResults().setFHA(records[counter2].getResults().getFHA());
+                                football.getResults().setHAD(records[counter2].getResults().getHAD());
+                                football.getResults().setHFT(records[counter2].getResults().getHFT());
+                                football.getResults().setOOE(records[counter2].getResults().getOOE());
+                                football.getResults().setTTG(records[counter2].getResults().getTTG());
+                                football.getResults().setCreated_at(LocalDateTime.now());
+                                football.getResults().setUpdated_at(LocalDateTime.now());
+                                football.setUpdated_at(LocalDateTime.now()); 
+                                football.setCornerresult(records[counter2].getCornerresult());
+                                footballHandler.Update(football); 
+                            }
+                        } catch (Exception e) {
+                            log.error("Counter: " + counter2, e);
+                            currentDay = -1; 
+                        }
+                        
+                    }
+                }
+            }
+            
         }
     }
 }

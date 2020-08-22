@@ -70,6 +70,7 @@ public class Downloader {
         try {
             URL iurl = new URL(url);
             //CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+            CookieHandler.setDefault(new CookieManager());
             HttpURLConnection uc = (HttpURLConnection)iurl.openConnection();
             uc.setRequestMethod("GET"); 
             uc.setRequestProperty("User-Agent", USER_AGENT);
