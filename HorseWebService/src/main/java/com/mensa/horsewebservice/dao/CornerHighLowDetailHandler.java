@@ -32,8 +32,8 @@ public class CornerHighLowDetailHandler  implements IHandler<CornerHighLowDetail
     
     @Override
     public CornerHighLowDetail Get(CornerHighLowDetail record) {
-        String sql = "select record from CornerHighLowDetail record where record.idKey = :idKey";
-        List<CornerHighLowDetail> answer = handler.GetQuery(sql).setParameter("idKey", record.getIdKey()).setMaxResults(1).getResultList(); 
+        String sql = "select record from CornerHighLowDetail record where record.matchID = :matchID and record.LINENUM = :LINENUM";
+        List<CornerHighLowDetail> answer = handler.GetQuery(sql).setParameter("matchID", record.getMatchID()).setParameter("LINENUM", record.getLINENUM()).setMaxResults(1).getResultList(); 
         if (answer != null && answer.size() > 0) {
             return answer.get(0); 
         } else {

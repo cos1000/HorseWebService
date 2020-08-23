@@ -32,8 +32,8 @@ public class FirstGoalHighLowDetailHandler implements IHandler<FirstGoalHighLowD
     
     @Override
     public FirstGoalHighLowDetail Get(FirstGoalHighLowDetail record) {
-        String sql = "select record from FirstGoalHighLowDetail record where record.idKey = :idKey";
-        List<FirstGoalHighLowDetail> answer = handler.GetQuery(sql).setParameter("idKey", record.getIdKey()).setMaxResults(1).getResultList(); 
+        String sql = "select record from FirstGoalHighLowDetail record where record.matchID = :matchID and record.LINENUM = :LINENUM";
+        List<FirstGoalHighLowDetail> answer = handler.GetQuery(sql).setParameter("matchID", record.getMatchID()).setParameter("LINENUM", record.getLINENUM()).setMaxResults(1).getResultList(); 
         if (answer != null && answer.size() > 0) {
             return answer.get(0); 
         } else {

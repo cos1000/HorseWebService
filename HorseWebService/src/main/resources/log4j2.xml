@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="trace" monitorInterval="30" >
     <Properties>
-        <Property name="basePath">./logs</Property>
+        <Property name="basePath">/opt/tomcat/latest/logs</Property>
         <Property name="filename">./logs/horse_file.log</Property>
         <Property name="csvLog.fileName">./logs/horse_file.log</Property>
         <Property name="file-header">column1,column2,column3</Property>
@@ -55,7 +55,7 @@
     </Appenders>
     <Loggers>
         <Root level="info" additivity="false">
-            <!-- appender-ref ref="console" level="error" / -->
+            <appender-ref ref="console" level="error" />
             <!-- appender-ref ref="fileLogger" level="debug" / -->
             <appender-ref ref="MyFile" level="info" />
             <!-- appender-ref ref="csvFile" level="info" / -->

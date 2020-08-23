@@ -24,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Data
-@Table(name = "corner_goal_high_low_detail")
+@Table(name = "corner_high_low_detail")
 public class CornerHighLowDetail implements Serializable {
     
     @Id
@@ -38,6 +38,9 @@ public class CornerHighLowDetail implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updated_at; 
 
+    @Column(name = "matchID")
+    private String matchID;
+    
     @Column(name = "LINENUM")
     private String LINENUM;
 

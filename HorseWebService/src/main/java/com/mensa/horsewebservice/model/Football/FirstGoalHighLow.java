@@ -65,7 +65,7 @@ public class FirstGoalHighLow implements Serializable {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @JoinColumn(name = "detail_id")
+    @JoinColumn(name = "header_id")
     private List<FirstGoalHighLowDetail> LINELIST = new ArrayList<>();
     
 

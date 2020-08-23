@@ -23,6 +23,9 @@
         <tr>
             <td><a href="<c:url value='/football' />" >Football</a></td>
         </tr>
+        <tr>
+            <td><a href="<c:url value='/football/export' />" >Export Football Full List</a></td>
+        </tr>
     </table>
 </body>
 </html>

@@ -38,6 +38,9 @@ public class FirstGoalHighLowDetail implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updated_at; 
 
+    @Column(name = "matchID")
+    private String matchID;
+    
     @Column(name = "LINENUM")
     private String LINENUM;
 

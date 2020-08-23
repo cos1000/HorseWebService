@@ -5,10 +5,12 @@
             Persistence unit for the JPA tutorial of the Hibernate Getting Started Guide
     </description>
     <class>com.mensa.horsewebservice.model.CornerHighLow</class>
+    <class>com.mensa.horsewebservice.model.CornerHighLowDetail</class>
     <class>com.mensa.horsewebservice.model.CorrectScore</class>
     <class>com.mensa.horsewebservice.model.Coupon</class>
     <class>com.mensa.horsewebservice.model.FirstCorrectScore</class>
     <class>com.mensa.horsewebservice.model.FirstGoalHighLow</class>
+    <class>com.mensa.horsewebservice.model.FirstGoalHighLowDetail</class>
     <class>com.mensa.horsewebservice.model.FirstHomeAwayDraw</class>
     <class>com.mensa.horsewebservice.model.FirstTeamToScore</class>
     <class>com.mensa.horsewebservice.model.Football</class>
@@ -23,7 +25,7 @@
     <class>com.mensa.horsewebservice.model.TotalGoal</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/horse_trading"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:6001/horse_trading"/>
       <property name="javax.persistence.jdbc.user" value="matt"/>
       <property name="javax.persistence.jdbc.password" value="workflow"/>
       <property name="hibernate.show_sql" value="true"/>

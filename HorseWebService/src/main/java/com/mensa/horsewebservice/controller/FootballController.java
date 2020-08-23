@@ -7,7 +7,13 @@ package com.mensa.horsewebservice.controller;
 
 import com.mensa.horsewebservice.model.Football.Football;
 import com.mensa.horsewebservice.service.FootballServiceImpl;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +75,23 @@ public class FootballController implements IController<Football> {
         this.service.delete(id);
         return "redirect:/football";
     }
+
+    @RequestMapping(value = "/football/export", method = RequestMethod.GET)
+    public void getFile(HttpServletRequest request, HttpServletResponse response) {
+        String dataDirectory = request.getServletContext().getRealPath("/WEB-INF/downloads/pdf/");
+        response.setContentType("application/vnd.ms-excel");
+        response.addHeader("Content-Disposition", "attachment; filename=result.xlsx");
+        try
+        {
+            Path file = Paths.get("/opt/tomcat/latest/logs/", "result.xlsx");
+            Files.copy(file, response.getOutputStream());
+            response.getOutputStream().flush();
+        } 
+        catch (IOException ex) {
+            log.error("Export Error", ex);
+            ex.printStackTrace();
+        }
+    }
+
     
 }

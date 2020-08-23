@@ -29,6 +29,7 @@ import com.mensa.horsewebservice.dao.RecordHandler;
 import com.mensa.horsewebservice.dao.TeamHandler;
 import com.mensa.horsewebservice.dao.TotalGoalHandler;
 import com.mensa.horsewebservice.model.Football.CornerHighLow;
+import com.mensa.horsewebservice.model.Football.CornerHighLowDetail;
 import com.mensa.horsewebservice.model.Football.CorrectScore;
 import com.mensa.horsewebservice.model.Football.Coupon;
 import com.mensa.horsewebservice.model.Football.FirstCorrectScore;
@@ -73,7 +74,7 @@ public class ImportScheduler implements ServletContextListener {
         System.out.println("Start contextInitialized");
         log.info("Start contextInitialized");
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new ImportJob(), 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new ImportJob(), 0, 1, TimeUnit.HOURS);
         log.info("Finished contextInitialized");
         System.out.println("Finished contextInitialized");
     }
@@ -221,9 +222,11 @@ log.info("Step 11");
                             actualFootball.getChlodds().setCreated_at(LocalDateTime.now());
                             actualFootball.getChlodds().setUpdated_at(LocalDateTime.now());
                             for (int counter3 = 0; counter3 < actualFootball.getChlodds().getLINELIST().size(); counter3++) {
+                                actualFootball.getChlodds().getLINELIST().get(counter3).setMatchID(actualFootball.getMatchID());
                                 actualFootball.getChlodds().getLINELIST().get(counter3).setCreated_at(LocalDateTime.now());
                                 actualFootball.getChlodds().getLINELIST().get(counter3).setUpdated_at(LocalDateTime.now());
-                                actualFootball.getChlodds().getLINELIST().set(counter3, cornerHighLowDetailHandler.CreateAndReturn(actualFootball.getChlodds().getLINELIST().get(counter3))); 
+                                CornerHighLowDetail detail = cornerHighLowDetailHandler.CreateAndReturn(actualFootball.getChlodds().getLINELIST().get(counter3));
+                                actualFootball.getChlodds().getLINELIST().set(counter3, detail); 
                             }
                             CornerHighLow cornerHighLow = cornerHighLowHandler.CreateAndReturn(actualFootball.getChlodds()); 
                             if (cornerHighLow != null) actualFootball.setChlodds(cornerHighLow);
@@ -257,6 +260,7 @@ log.info("Step 14");
                             actualFootball.getFhlodds().setCreated_at(LocalDateTime.now());
                             actualFootball.getFhlodds().setUpdated_at(LocalDateTime.now());
                             for (int counter3 = 0; counter3 < actualFootball.getHilodds().getLINELIST().size(); counter3++) {
+                                actualFootball.getFhlodds().getLINELIST().get(counter3).setMatchID(actualFootball.getMatchID());
                                 actualFootball.getFhlodds().getLINELIST().get(counter3).setCreated_at(LocalDateTime.now());
                                 actualFootball.getFhlodds().getLINELIST().get(counter3).setUpdated_at(LocalDateTime.now());
                                 actualFootball.getFhlodds().getLINELIST().set(counter3, firstGoalHighLowDetailHandler.CreateAndReturn(actualFootball.getFhlodds().getLINELIST().get(counter3))); 
@@ -293,6 +297,7 @@ log.info("Step 17");
                             actualFootball.getHilodds().setCreated_at(LocalDateTime.now());
                             actualFootball.getHilodds().setUpdated_at(LocalDateTime.now());
                             for (int counter3 = 0; counter3 < actualFootball.getHilodds().getLINELIST().size(); counter3++) {
+                                actualFootball.getHilodds().getLINELIST().get(counter3).setMatchID(actualFootball.getMatchID());
                                 actualFootball.getHilodds().getLINELIST().get(counter3).setCreated_at(LocalDateTime.now());
                                 actualFootball.getHilodds().getLINELIST().get(counter3).setUpdated_at(LocalDateTime.now());
                                 actualFootball.getHilodds().getLINELIST().set(counter3, goalHighLowDetailHandler.CreateAndReturn(actualFootball.getHilodds().getLINELIST().get(counter3))); 
@@ -420,7 +425,9 @@ log.info("Step 102");
                     }
                 }
             }
-            
+log.info("Step 103");            
+            Exporter exporter = new Exporter(); 
+            exporter.export(); 
         }
     }
 }

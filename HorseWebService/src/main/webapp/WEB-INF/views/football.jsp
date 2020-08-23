@@ -20,7 +20,11 @@
 <br>    
 <c:if test="${!empty records}">
 	<table class="tg">
+
+	<c:forEach items="${records}" var="record">
+        <!-- 1 -->
 	<tr>
+                <th width="120" >1</th>
 		<th width="120">比賽編號</th>
                 <th width="120">比賽類別</th>
                 <th width="120">比賽時間</th>
@@ -29,37 +33,91 @@
                 <th width="120" colspan="3">主客和</th>
                 <th width="120" colspan="3">入球大細</th>
                 <th width="120" colspan="3">波膽</th>
+                <th width="120" colspan="3">半場波膽</th>
+                <th width="120" >總入球</th>
+                <th width="120" >半全場</th>
 	</tr>
+        <!-- 2 -->
 	<tr>
+                <th width="120" >2</th>
 		<th width="120" colspan="5"></th>
                 <th width="120" colspan="3">半場主客和</th>
                 <th width="120" colspan="3">半場入球大細</th>
                 <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" ></th>
+                <th width="120" ></th>
 	</tr>
+        <!-- 3 -->
 	<tr>
-		<th width="120" colspan="5"></th>
+                <th width="120" >3</th>
+		<th width="120" colspan="5">賽果</th>
                 <th width="120" colspan="3">讓球主客和</th>
                 <th width="120" colspan="3">角球大細</th>
                 <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" ></th>
+                <th width="120" ></th>
 	</tr>
+        <!-- 4 -->
 	<tr>
-		<th width="120" colspan="5"></th>
+                <th width="120" >4</th>
+		<th width="120">主客和</th>
+                <th width="120">半場主客和</th>
+                <th width="120">波膽</th>
+		<th width="120">半場波膽</th>
+		<th width="120">半全場</th>
                 <th width="120" colspan="3">讓球</th>
                 <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" ></th>
+                <th width="120" ></th>
 	</tr>
+        <!-- 5 -->
 	<tr>
+                <th width="120" >5</th>
+		<th width="120" colspan="5">入球單雙</th>
+                <th width="120" colspan="3">第一隊入球</th>
+                <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" ></th>
+                <th width="120" ></th>
+	</tr>
+        <!-- 6 -->
+	<tr>
+                <th width="120" >6</th>
+		<th width="120" colspan="5"></th>
+                <th width="120" colspan="3">單雙</th>
+                <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" colspan="3"></th>
+                <th width="120" ></th>
+                <th width="120" ></th>
+	</tr>
+        <!-- 7 -->
+	<tr>
+                <th width="120" >7</th>
 		<th width="120" colspan="5"></th>
                 <th width="120">主</th>
                 <th width="120">客</th>
                 <th width="120">和</th>
-                <th width="120" colspan="3"></th>
+                <th width="120">中間數</th>
+                <th width="120">大</th>
+                <th width="120">細</th>
                 <th width="120">主</th>
                 <th width="120">客</th>
                 <th width="120">和</th>
-	</tr>
-	<c:forEach items="${records}" var="record">
+                <th width="120">主</th>
+                <th width="120">客</th>
+                <th width="120">和</th>
+                <th width="120" ></th>
+                <th width="120" ></th>
+	</tr>            
                 <!-- 1 -->
 		<tr>
+                        <td>1</td>
 			<td>${record.matchDay} ${record.matchNum}</td>
 			<td>${record.league.leagueNameCH}</td>
 			<td>${record.matchTime}</td>
@@ -76,10 +134,10 @@
                         </c:otherwise>
                         </c:choose>
                         <c:choose>
-                        <c:when test="${!empty record.hilodds and !empty record.hilodds.LINELIST}">
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
+                        <c:when test="${!empty record.hilodds and !empty record.hilodds.LINELIST[0]}">
+			<td>${fn:replace(record.hilodds.LINELIST[0].LINE, '100@', '')}</td>
+			<td>${fn:replace(record.hilodds.LINELIST[0].h, '100@', '')}</td>
+			<td>${fn:replace(record.hilodds.LINELIST[0].l, '100@', '')}</td>
                         </c:when>    
                         <c:otherwise>
                         <td colspan="3"></td>
@@ -95,9 +153,36 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>01:00 ${fn:replace(record.fcsodds.s0100, '100@', '')}</td>
+			<td>00:01 ${fn:replace(record.fcsodds.s0001, '100@', '')}</td>
+			<td>00:00 ${fn:replace(record.fcsodds.s0000, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>1球 ${fn:replace(record.ttgodds.p1, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>主主 ${fn:replace(record.hftodds.HH, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 2 -->
 		<tr>
+                        <td>2</td>
 			<td colspan="5"></td>
                         <c:choose>
                         <c:when test="${!empty record.fhaodds}">
@@ -110,10 +195,10 @@
                         </c:otherwise>
                         </c:choose>
                         <c:choose>
-                        <c:when test="${!empty record.hilodds and !empty record.hilodds.LINELIST}">
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
+                        <c:when test="${!empty record.hilodds and !empty record.hilodds.LINELIST[1]}">
+			<td>${fn:replace(record.hilodds.LINELIST[1].LINE, '100@', '')}</td>
+			<td>${fn:replace(record.hilodds.LINELIST[1].h, '100@', '')}</td>
+			<td>${fn:replace(record.hilodds.LINELIST[1].l, '100@', '')}</td>
                         </c:when>    
                         <c:otherwise>
                         <td colspan="3"></td>
@@ -129,9 +214,36 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>02:00 ${fn:replace(record.fcsodds.s0200, '100@', '')}</td>
+			<td>00:02 ${fn:replace(record.fcsodds.s0002, '100@', '')}</td>
+			<td>01:01 ${fn:replace(record.fcsodds.s0101, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>2球 ${fn:replace(record.ttgodds.p2, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>主客 ${fn:replace(record.hftodds.HA, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 3 -->
 		<tr>
+                        <td>3</td>
 			<td colspan="5"></td>
                         <c:choose>
                         <c:when test="${!empty record.hhaodds}">
@@ -144,10 +256,10 @@
                         </c:otherwise>
                         </c:choose>
                         <c:choose>
-                        <c:when test="${!empty record.hilodds and !empty record.hilodds.LINELIST}">
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.hilodds.LINELIST, '100@', '')}</td>
+                        <c:when test="${!empty record.hilodds and !empty record.hilodds.LINELIST[2]}">
+			<td>${fn:replace(record.hilodds.LINELIST[2].LINE, '100@', '')}</td>
+			<td>${fn:replace(record.hilodds.LINELIST[2].h, '100@', '')}</td>
+			<td>${fn:replace(record.hilodds.LINELIST[2].l, '100@', '')}</td>
                         </c:when>    
                         <c:otherwise>
                         <td colspan="3"></td>
@@ -163,10 +275,48 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>02:01 ${fn:replace(record.fcsodds.s0201, '100@', '')}</td>
+			<td>01:02 ${fn:replace(record.fcsodds.s0102, '100@', '')}</td>
+			<td>02:02 ${fn:replace(record.fcsodds.s0202, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>3球 ${fn:replace(record.ttgodds.p3, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>主和 ${fn:replace(record.hftodds.HD, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 4 -->
 		<tr>
-			<td colspan="5"></td>
+                        <td>4</td>
+                        <c:choose>
+                        <c:when test="${!empty record.results}">
+			<td>${fn:replace(record.results.HAD, '100@', '')}</td>
+			<td>${fn:replace(record.results.FHA, '100@', '')}</td>
+			<td>${fn:replace(record.results.CRS, '100@', '')}</td>
+			<td>${fn:replace(record.results.FCS, '100@', '')}</td>
+			<td>${fn:replace(record.results.TTG, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="5"></td>
+                        </c:otherwise>
+                        </c:choose>
                         <c:choose>
                         <c:when test="${!empty record.hdcodds}">
 			<td>${fn:replace(record.hdcodds.h, '100@', '')} (${record.hdcodds.HG})</td>
@@ -178,10 +328,10 @@
                         </c:otherwise>
                         </c:choose>
                         <c:choose>
-                        <c:when test="${!empty record.fhlodds and !empty record.fhlodds.LINELIST}">
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
+                        <c:when test="${!empty record.fhlodds and !empty record.fhlodds.LINELIST[0]}">
+			<td>${fn:replace(record.fhlodds.LINELIST[0].LINE, '100@', '')}</td>
+			<td>${fn:replace(record.fhlodds.LINELIST[0].h, '100@', '')}</td>
+			<td>${fn:replace(record.fhlodds.LINELIST[0].l, '100@', '')}</td>
                         </c:when>    
                         <c:otherwise>
                         <td colspan="3"></td>
@@ -197,16 +347,59 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>03:00 ${fn:replace(record.fcsodds.s0300, '100@', '')}</td>
+			<td>00:03 ${fn:replace(record.fcsodds.s0003, '100@', '')}</td>
+			<td>03:03 ${fn:replace(record.fcsodds.s0303, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>4球 ${fn:replace(record.ttgodds.p4, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>客主 ${fn:replace(record.hftodds.AH, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 5 -->
 		<tr>
-			<td colspan="5"></td>
-                        <td colspan="3"></td>
+                        <td>5</td>
                         <c:choose>
-                        <c:when test="${!empty record.fhlodds and !empty record.fhlodds.LINELIST}">
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
+                        <c:when test="${!empty record.results}">
+			<td colspan="5">${fn:replace(record.results.OOE, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="5"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ftsodds}">
+			<td>${fn:replace(record.ftsodds.h, '100@', '')}</td>
+			<td>${fn:replace(record.ftsodds.a, '100@', '')}</td>
+			<td>${fn:replace(record.ftsodds.n, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fhlodds and !empty record.fhlodds.LINELIST[1]}">
+			<td>${fn:replace(record.fhlodds.LINELIST[1].LINE, '100@', '')}</td>
+			<td>${fn:replace(record.fhlodds.LINELIST[1].h, '100@', '')}</td>
+			<td>${fn:replace(record.fhlodds.LINELIST[1].l, '100@', '')}</td>
                         </c:when>    
                         <c:otherwise>
                         <td colspan="3"></td>
@@ -222,16 +415,52 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>03:01 ${fn:replace(record.fcsodds.s0301, '100@', '')}</td>
+			<td>01:03 ${fn:replace(record.fcsodds.s0103, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>5球 ${fn:replace(record.ttgodds.p5, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>客客 ${fn:replace(record.hftodds.AA, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 6 -->
 		<tr>
+                        <td>6</td>
 			<td colspan="5"></td>
-                        <td colspan="3"></td>
                         <c:choose>
-                        <c:when test="${!empty record.fhlodds and !empty record.fhlodds.LINELIST}">
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
-			<td>${fn:replace(record.fhlodds.LINELIST, '100@', '')}</td>
+                        <c:when test="${!empty record.ooeodds}">
+			<td>${fn:replace(record.ooeodds.o, '100@', '')}</td>
+			<td>${fn:replace(record.ooeodds.e, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fhlodds and !empty record.fhlodds.LINELIST[2]}">
+			<td>${fn:replace(record.fhlodds.LINELIST[2].LINE, '100@', '')}</td>
+			<td>${fn:replace(record.fhlodds.LINELIST[2].h, '100@', '')}</td>
+			<td>${fn:replace(record.fhlodds.LINELIST[2].l, '100@', '')}</td>
                         </c:when>    
                         <c:otherwise>
                         <td colspan="3"></td>
@@ -247,9 +476,36 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>03:02 ${fn:replace(record.fcsodds.s0302, '100@', '')}</td>
+			<td>02:03 ${fn:replace(record.fcsodds.s0203, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>6球 ${fn:replace(record.ttgodds.p6, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>客和 ${fn:replace(record.hftodds.AD, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 7 -->
 		<tr>
+                        <td>7</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <c:choose>
@@ -272,9 +528,36 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>04:00 ${fn:replace(record.fcsodds.s0400, '100@', '')}</td>
+			<td>00:04 ${fn:replace(record.fcsodds.s0004, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.ttgodds}">
+			<td>7球 ${fn:replace(record.ttgodds.m7, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>和主 ${fn:replace(record.hftodds.DH, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 8 -->
 		<tr>
+                        <td>8</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <c:choose>
@@ -297,9 +580,29 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>04:01 ${fn:replace(record.fcsodds.s0401, '100@', '')}</td>
+			<td>01:04 ${fn:replace(record.fcsodds.s0104, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <td></td>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>和客 ${fn:replace(record.hftodds.DA, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 9 -->
 		<tr>
+                        <td>9</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <c:choose>
@@ -322,9 +625,29 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>04:02 ${fn:replace(record.fcsodds.s0402, '100@', '')}</td>
+			<td>02:04 ${fn:replace(record.fcsodds.s0204, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <td></td>
+                        <c:choose>
+                        <c:when test="${!empty record.hftodds}">
+			<td>和和 ${fn:replace(record.hftodds.DD, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td></td>
+                        </c:otherwise>
+                        </c:choose>
 		</tr>
                 <!-- 10 -->
 		<tr>
+                        <td>10</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <td colspan="3"></td>
@@ -338,9 +661,22 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>05:00 ${fn:replace(record.fcsodds.s0500, '100@', '')}</td>
+			<td>00:05 ${fn:replace(record.fcsodds.s0005, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <td></td>
+                        <td></td>
 		</tr>
                 <!-- 11 -->
 		<tr>
+                        <td>11</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <td colspan="3"></td>
@@ -354,9 +690,22 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>05:01 ${fn:replace(record.fcsodds.s0501, '100@', '')}</td>
+			<td>01:05 ${fn:replace(record.fcsodds.s0105, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <td></td>
+                        <td></td>
 		</tr>
                 <!-- 12 -->
 		<tr>
+                        <td>12</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <td colspan="3"></td>
@@ -370,9 +719,22 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>05:02 ${fn:replace(record.fcsodds.s0502, '100@', '')}</td>
+			<td>02:05 ${fn:replace(record.fcsodds.s0205, '100@', '')}</td>
+			<td></td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <td></td>
+                        <td></td>
 		</tr>
                 <!-- 13 -->
 		<tr>
+                        <td>13</td>
 			<td colspan="5"></td>
                         <td colspan="3"></td>
                         <td colspan="3"></td>
@@ -386,6 +748,18 @@
                         <td colspan="3"></td>
                         </c:otherwise>
                         </c:choose>
+                        <c:choose>
+                        <c:when test="${!empty record.fcsodds}">
+			<td>主其他 ${fn:replace(record.fcsodds.SM1MH, '100@', '')}</td>
+			<td>客其他 ${fn:replace(record.fcsodds.SM1MA, '100@', '')}</td>
+			<td>和其他 ${fn:replace(record.fcsodds.SM1MD, '100@', '')}</td>
+                        </c:when>    
+                        <c:otherwise>
+                        <td colspan="3"></td>
+                        </c:otherwise>
+                        </c:choose>
+                        <td></td>
+                        <td></td>
 		</tr>
 	</c:forEach>
 	</table>

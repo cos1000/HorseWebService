@@ -32,8 +32,8 @@ public class GoalHighLowDetailHandler implements IHandler<GoalHighLowDetail> {
     
     @Override
     public GoalHighLowDetail Get(GoalHighLowDetail record) {
-        String sql = "select record from GoalHighLowDetail record where record.idKey = :idKey";
-        List<GoalHighLowDetail> answer = handler.GetQuery(sql).setParameter("idKey", record.getIdKey()).setMaxResults(1).getResultList(); 
+        String sql = "select record from GoalHighLowDetail record where record.matchID = :matchID and record.LINENUM = :LINENUM";
+        List<GoalHighLowDetail> answer = handler.GetQuery(sql).setParameter("matchID", record.getMatchID()).setParameter("LINENUM", record.getLINENUM()).setMaxResults(1).getResultList(); 
         if (answer != null && answer.size() > 0) {
             return answer.get(0); 
         } else {
