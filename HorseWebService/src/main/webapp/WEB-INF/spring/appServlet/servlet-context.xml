@@ -31,5 +31,9 @@
 		<beans:property name="footballHandler" ref="footballHandler"></beans:property>
 	</beans:bean>
         
+	<beans:bean id="generalReportService" class="com.mensa.horsewebservice.service.GeneralReportServiceImpl">
+		<beans:property name="footballHandler" ref="footballHandler"></beans:property>
+	</beans:bean>
+        
 	<context:component-scan base-package="com.mensa.horsewebservice" />
 </beans:beans>

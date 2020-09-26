@@ -58,6 +58,7 @@ public class Exporter {
                         if (footballList.get(counter).getResults().getFCS() != null) currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getResults().getFCS().replace("100@", "")); else cellCounter++; 
                         if (footballList.get(counter).getResults().getHFT() != null) currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getResults().getHFT().replace("100@", "")); else cellCounter++; 
                         if (footballList.get(counter).getResults().getTTG() != null) currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getResults().getTTG().replace("100@", "")); else cellCounter++; 
+                        if (footballList.get(counter).getCornerresult() != null) currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getCornerresult().replace("100@", "")); else cellCounter++; 
                         if (footballList.get(counter).getResults().getOOE() != null) currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getResults().getOOE().replace("100@", "")); else cellCounter++; 
                     }
                     
@@ -344,6 +345,8 @@ log.info("Export Step 18");
         headerRow2.createCell(cellCounter++).setCellValue("半全場");
         headerRow.createCell(cellCounter).setCellValue("");
         headerRow2.createCell(cellCounter++).setCellValue("總入球");
+        headerRow.createCell(cellCounter).setCellValue("");
+        headerRow2.createCell(cellCounter++).setCellValue("角球總數");
         headerRow.createCell(cellCounter).setCellValue("");
         headerRow2.createCell(cellCounter++).setCellValue("入球單雙");
         headerRow.getSheet().addMergedRegion(new CellRangeAddress(headerRow.getRowNum(), headerRow.getRowNum(), startCellCounter, cellCounter -1));

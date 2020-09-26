@@ -4,6 +4,7 @@
 <%@ page session="false" %>
 <html>
 <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" >
 	<title>Jockey Club Report Menu</title>
 	<style type="text/css">
 		.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
@@ -25,6 +26,9 @@
         </tr>
         <tr>
             <td><a href="<c:url value='/football/export' />" >Export Football Full List</a></td>
+        </tr>
+        <tr>
+            <td><a href="<c:url value='/report/goalHigh' />" >Goal High Report</a></td>
         </tr>
     </table>
 </body>

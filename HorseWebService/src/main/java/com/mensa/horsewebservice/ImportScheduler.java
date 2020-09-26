@@ -74,7 +74,7 @@ public class ImportScheduler implements ServletContextListener {
         System.out.println("Start contextInitialized");
         log.info("Start contextInitialized");
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new ImportJob(), 0, 1, TimeUnit.HOURS);
+        scheduler.scheduleAtFixedRate(new ImportJob(), 0, 2, TimeUnit.HOURS);
         log.info("Finished contextInitialized");
         System.out.println("Finished contextInitialized");
     }
@@ -89,7 +89,7 @@ public class ImportScheduler implements ServletContextListener {
         public void run() {
             int day = LocalDateTime.now().getDayOfYear(); 
             int hour = LocalDateTime.now().getHour(); 
-            if (day == currentDay || hour < 8) return; 
+            //if (day == currentDay || hour < 8) return; 
             
             currentDay = day; 
 
