@@ -31,6 +31,13 @@
         <tr><td><a href="<c:url value='/report/firstHomeAwayDrawHome' />" >半場主客和 - 主</a></td></tr>
         <tr><td><a href="<c:url value='/report/firstHomeAwayDrawAway' />" >半場主客和 - 客</a></td></tr>
         <tr><td><a href="<c:url value='/report/firstHomeAwayDrawDraw' />" >半場主客和 - 和</a></td></tr>
+        <tr><td><a href="<c:url value='/report/handicapHomeAwayDrawHome' />" >讓球主客和 - 主</a></td></tr>
+        <tr><td><a href="<c:url value='/report/handicapHomeAwayDrawAway' />" >讓球主客和 - 客</a></td></tr>
+        <tr><td><a href="<c:url value='/report/handicapHomeAwayDrawDraw' />" >讓球主客和 - 和</a></td></tr>
+        <tr><td><a href="<c:url value='/report/handicapHome' />" >讓球 - 主</a></td></tr>
+        <tr><td><a href="<c:url value='/report/handicapAway' />" >讓球 - 客</a></td></tr>
+        <tr><td><a href="<c:url value='/report/totalGoal' />" >總入球</a></td></tr>
+        <tr><td><a href="<c:url value='/correctScoreMenu' />" >波膽</a></td></tr>
     </table>
 </body>
 </html>

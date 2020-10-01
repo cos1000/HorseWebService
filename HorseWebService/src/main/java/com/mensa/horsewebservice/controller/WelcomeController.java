@@ -20,4 +20,9 @@ public class WelcomeController {
         return "welcome";
     }
 
+    @RequestMapping("/correctScoreMenu")
+    public String correctScoreMenu(Model model) {
+        return "CorrectScoreMenu";
+    }
+
 }
