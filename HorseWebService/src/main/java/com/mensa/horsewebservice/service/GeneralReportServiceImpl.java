@@ -6,12 +6,14 @@
 package com.mensa.horsewebservice.service;
 
 import com.mensa.horsewebservice.dao.FootballHandler;
+import com.mensa.horsewebservice.dao.SuggestBuyRecordHandler;
 import com.mensa.horsewebservice.model.Football.FirstGoalHighLowDetail;
 import com.mensa.horsewebservice.model.Football.Report.GeneralResult;
 import com.mensa.horsewebservice.model.Football.Football; 
 import com.mensa.horsewebservice.model.Football.GoalHighLowDetail;
 import com.mensa.horsewebservice.model.Football.HandicapHomeAwayDraw;
 import com.mensa.horsewebservice.model.Football.HomeAwayDraw;
+import com.mensa.horsewebservice.model.Football.SuggestBuyRecord;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -80,10 +82,17 @@ public class GeneralReportServiceImpl {
                     BigDecimal lowDefine = new BigDecimal(detail.getLINE().substring(0, 3)); 
                     BigDecimal highOdds = new BigDecimal(detail.getH().substring(4)); 
                     BigDecimal lowOdds = new BigDecimal(detail.getL().substring(4)); 
-                    BigDecimal result = new BigDecimal(record.getResults().getTTG().replace("+", "").replace("-", ""));
+                    BigDecimal result = BigDecimal.ZERO; 
+                    try {
+                        result = new BigDecimal(record.getResults().getTTG().replace("+", "").replace("-", ""));
+                    } catch (Exception ex) {
+                        continue; 
+                    }
                     
                     highOdds = getRoundTo5(highOdds); 
                     lowOdds = getRoundTo5(lowOdds);  
+                    
+                    if (highOdds == null) continue; 
                     
                     String key = highDefine.toString() + ": " + decimalFormat.format(highOdds); 
                     List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
@@ -186,12 +195,19 @@ public class GeneralReportServiceImpl {
                     BigDecimal lowDefine = new BigDecimal(detail.getLINE().substring(0, 3)); 
                     BigDecimal highOdds = new BigDecimal(detail.getH().substring(4)); 
                     BigDecimal lowOdds = new BigDecimal(detail.getL().substring(4)); 
-                    BigDecimal result = new BigDecimal(record.getResults().getTTG().replace("+", "").replace("-", ""));
+                    BigDecimal result = BigDecimal.ZERO; 
+                    try {
+                        result = new BigDecimal(record.getResults().getTTG().replace("+", "").replace("-", ""));
+                    } catch (Exception ex) {
+                        continue; 
+                    }
                     
                     highOdds = getRoundTo5(highOdds); 
                     lowOdds = getRoundTo5(lowOdds);  
                     
-                    String key = highDefine.toString() + ": " + decimalFormat.format(lowOdds); 
+                    if (lowOdds == null) continue; 
+                    
+                    String key = lowDefine.toString() + ": " + decimalFormat.format(lowOdds); 
                     List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
                     if (filteredAnswer.size() > 0)
                     {
@@ -258,7 +274,7 @@ public class GeneralReportServiceImpl {
     }
 
     public List<GeneralResult> getFirstGoalHigh() {
-        log.info("Start Goal High");
+        log.info("Start First Goal High");
         
         List<Football> records = recordHandler.GetAll(); 
         //records = records.stream()
@@ -292,13 +308,22 @@ public class GeneralReportServiceImpl {
                     BigDecimal lowDefine = new BigDecimal(detail.getLINE().substring(0, 3)); 
                     BigDecimal highOdds = new BigDecimal(detail.getH().substring(4)); 
                     BigDecimal lowOdds = new BigDecimal(detail.getL().substring(4)); 
-                    BigDecimal result = new BigDecimal(record.getResults().getFCS().substring(0, 2));
-                    BigDecimal result2 = new BigDecimal(record.getResults().getFCS().substring(3));
+                    
+                    BigDecimal result = BigDecimal.ZERO; 
+                    BigDecimal result2 = BigDecimal.ZERO; 
+                    try {
+                        result = new BigDecimal(record.getResults().getFCS().substring(0, 2));
+                        result2 = new BigDecimal(record.getResults().getFCS().substring(3));
+                    } catch (Exception ex) {
+                        continue; 
+                    }
+                    
                     result = result.add(result2); 
                     
                     highOdds = getRoundTo5(highOdds); 
                     lowOdds = getRoundTo5(lowOdds);  
                     
+                    if (highOdds == null) continue; 
                     String key = highDefine.toString() + ": " + decimalFormat.format(highOdds); 
                     List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
                     if (filteredAnswer.size() > 0)
@@ -366,7 +391,7 @@ public class GeneralReportServiceImpl {
     }
     
     public List<GeneralResult> getFirstGoalLow() {
-        log.info("Start Goal Low");
+        log.info("Start First Goal Low");
         
         List<Football> records = recordHandler.GetAll(); 
         //records = records.stream()
@@ -400,14 +425,22 @@ public class GeneralReportServiceImpl {
                     BigDecimal lowDefine = new BigDecimal(detail.getLINE().substring(0, 3)); 
                     BigDecimal highOdds = new BigDecimal(detail.getH().substring(4)); 
                     BigDecimal lowOdds = new BigDecimal(detail.getL().substring(4)); 
-                    BigDecimal result = new BigDecimal(record.getResults().getFCS().substring(0, 3));
-                    BigDecimal result2 = new BigDecimal(record.getResults().getFCS().substring(3));
+
+                    BigDecimal result = BigDecimal.ZERO; 
+                    BigDecimal result2 = BigDecimal.ZERO; 
+                    try {
+                        result = new BigDecimal(record.getResults().getFCS().substring(0, 2));
+                        result2 = new BigDecimal(record.getResults().getFCS().substring(3));
+                    } catch (Exception ex) {
+                        continue; 
+                    }
                     result = result.add(result2); 
                     
                     highOdds = getRoundTo5(highOdds); 
                     lowOdds = getRoundTo5(lowOdds);  
                     
-                    String key = highDefine.toString() + ": " + decimalFormat.format(lowOdds); 
+                    if (lowOdds == null) continue; 
+                    String key = lowDefine.toString() + ": " + decimalFormat.format(lowOdds); 
                     List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
                     if (filteredAnswer.size() > 0)
                     {
@@ -500,17 +533,18 @@ public class GeneralReportServiceImpl {
                 BigDecimal odds; 
                 if ("H".equals(checkingValue))
                 {
-                    odds = new BigDecimal(record.getFhaodds().getH().substring(4)); 
+                    odds = new BigDecimal(record.getHadodds().getH().substring(4)); 
                 } else if ("A".equals(checkingValue))
                 {
-                    odds = new BigDecimal(record.getFhaodds().getA().substring(4)); 
+                    odds = new BigDecimal(record.getHadodds().getA().substring(4)); 
                 } else {
-                    odds = new BigDecimal(record.getFhaodds().getD().substring(4)); 
+                    odds = new BigDecimal(record.getHadodds().getD().substring(4)); 
                 }
                 String result = record.getResults().getHAD(); 
 
                 odds = getRoundTo5(odds); 
 
+                if (odds == null) continue; 
                 String key = decimalFormat.format(odds); 
                 List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -607,6 +641,7 @@ public class GeneralReportServiceImpl {
 
                 odds = getRoundTo5(odds); 
 
+                if (odds == null) continue; 
                 String key = decimalFormat.format(odds); 
                 List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -678,9 +713,9 @@ public class GeneralReportServiceImpl {
         
         for(Football record : records) {
             if ("202008".equals(record.getMatchIDinofficial().substring(0, 6))) continue; 
-            if (record.getHadodds() == null) continue; 
+            if (record.getHhaodds() == null) continue; 
             if (record.getResults() == null) continue; 
-            if (record.getResults().getHAD()== null) continue; 
+            if (record.getResults().getCRS()== null) continue; 
             GeneralResult newRecord = new GeneralResult();
             newRecord.setWinNumberOfRecord(0);
             newRecord.setLostNumberOfRecord(0);
@@ -697,17 +732,20 @@ public class GeneralReportServiceImpl {
                     odds = new BigDecimal(record.getHhaodds().getH().substring(4)); 
                     handicap = new BigDecimal(record.getHhaodds().getHG().replace("+", "")); 
                     odds = getRoundTo5(odds); 
+                    if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + handicap.toString() + ")"; 
                 } else if ("A".equals(checkingValue))
                 {
                     odds = new BigDecimal(record.getHhaodds().getA().substring(4)); 
                     handicap = new BigDecimal(record.getHhaodds().getAG().replace("+", "")); 
                     odds = getRoundTo5(odds); 
+                    if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + handicap.toString() + ")"; 
                 } else {
                     odds = new BigDecimal(record.getHhaodds().getD().substring(4)); 
                     handicap = new BigDecimal(record.getHhaodds().getHG().replace("+", "")); 
                     odds = getRoundTo5(odds); 
+                    if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + handicap.toString() + ")"; 
                 }
                 String result = record.getResults().getCRS(); 
@@ -717,18 +755,20 @@ public class GeneralReportServiceImpl {
                 try {
                     homeResult = new BigDecimal(result.substring(0, indexOfResult)); 
                 } catch (Exception ex) {
-                    log.error("Exchange Home Result Error", ex);
-                    log.error("result: " + result); 
-                    log.error("indexOfResult: " + indexOfResult); 
-                    continue; 
+                    if ("-1:-H".equals(result)) homeResult = new BigDecimal("6"); 
+                    //log.error("Exchange Home Result Error", ex);
+                    //log.error("result: " + result); 
+                    //log.error("indexOfResult: " + indexOfResult); 
+                    if ("RFD".equals(result)) continue; 
                 }
                 try {
                     awayResult = new BigDecimal(result.substring(indexOfResult+1)); 
                 } catch (Exception ex) {
-                    log.error("Exchange Away Result Error", ex);
-                    log.error("result: " + result); 
-                    log.error("indexOfResult: " + indexOfResult); 
-                    continue; 
+                    if ("-1:-A".equals(result)) awayResult = new BigDecimal("6"); 
+                    //log.error("Exchange Away Result Error", ex);
+                    //log.error("result: " + result); 
+                    //log.error("indexOfResult: " + indexOfResult); 
+                    if ("RFD".equals(result)) continue; 
                 }
 
                 String handicapResult = "";
@@ -817,9 +857,9 @@ public class GeneralReportServiceImpl {
         
         for(Football record : records) {
             if ("202008".equals(record.getMatchIDinofficial().substring(0, 6))) continue; 
-            if (record.getHadodds() == null) continue; 
+            if (record.getHdcodds() == null) continue; 
             if (record.getResults() == null) continue; 
-            if (record.getResults().getHAD()== null) continue; 
+            if (record.getResults().getCRS()== null) continue; 
             GeneralResult newRecord = new GeneralResult();
             newRecord.setWinNumberOfRecord(0);
             newRecord.setLostNumberOfRecord(0);
@@ -839,6 +879,7 @@ public class GeneralReportServiceImpl {
                     handicap1 = new BigDecimal(record.getHdcodds().getHG().substring(0, indexOfHandicap).replace("+", "")); 
                     handicap2 = new BigDecimal(record.getHdcodds().getHG().substring(indexOfHandicap+1).replace("+", "")); 
                     odds = getRoundTo5(odds); 
+                    if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + record.getHdcodds().getHG() + ")"; 
                 } else 
                 {
@@ -847,6 +888,7 @@ public class GeneralReportServiceImpl {
                     handicap1 = new BigDecimal(record.getHdcodds().getAG().substring(0, indexOfHandicap).replace("+", "")); 
                     handicap2 = new BigDecimal(record.getHdcodds().getAG().substring(indexOfHandicap+1).replace("+", "")); 
                     odds = getRoundTo5(odds); 
+                    if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + record.getHdcodds().getHG() + ")"; 
                 }
                 String result = record.getResults().getCRS(); 
@@ -856,18 +898,20 @@ public class GeneralReportServiceImpl {
                 try {
                     homeResult = new BigDecimal(result.substring(0, indexOfResult)); 
                 } catch (Exception ex) {
-                    log.error("Exchange Home Result Error", ex);
-                    log.error("result: " + result); 
-                    log.error("indexOfResult: " + indexOfResult); 
-                    continue; 
+                    if ("-1:-H".equals(result)) homeResult = new BigDecimal("6"); 
+                    //log.error("Exchange Home Result Error", ex);
+                    //log.error("result: " + result); 
+                    //log.error("indexOfResult: " + indexOfResult); 
+                    if ("RFD".equals(result)) continue; 
                 }
                 try {
                     awayResult = new BigDecimal(result.substring(indexOfResult+1)); 
                 } catch (Exception ex) {
-                    log.error("Exchange Away Result Error", ex);
-                    log.error("result: " + result); 
-                    log.error("indexOfResult: " + indexOfResult); 
-                    continue; 
+                    if ("-1:-A".equals(result)) awayResult = new BigDecimal("6"); 
+                    //log.error("Exchange Away Result Error", ex);
+                    //log.error("result: " + result); 
+                    //log.error("indexOfResult: " + indexOfResult); 
+                    if ("RFD".equals(result)) continue; 
                 }
 
                 String handicapResult = "";
@@ -964,9 +1008,9 @@ public class GeneralReportServiceImpl {
         
         for(Football record : records) {
             if ("202008".equals(record.getMatchIDinofficial().substring(0, 6))) continue; 
-            if (record.getHadodds() == null) continue; 
+            if (record.getTtgodds() == null) continue; 
             if (record.getResults() == null) continue; 
-            if (record.getResults().getHAD()== null) continue; 
+            if (record.getResults().getTTG()== null) continue; 
             GeneralResult newRecord = new GeneralResult();
             newRecord.setWinNumberOfRecord(0);
             newRecord.setLostNumberOfRecord(0);
@@ -992,6 +1036,7 @@ public class GeneralReportServiceImpl {
                 odds07 = getRoundTo5(odds07); 
 
                 // <editor-fold desc="01">
+                if (odds01 == null) continue; 
                 String key01 = "01: " + decimalFormat.format(odds01); 
                 List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key01)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1013,6 +1058,7 @@ public class GeneralReportServiceImpl {
                 // </editor-fold>
                 
                 // <editor-fold desc="02">
+                if (odds02 == null) continue; 
                 String key02 = "02: " + decimalFormat.format(odds02); 
                 filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key02)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1034,6 +1080,7 @@ public class GeneralReportServiceImpl {
                 // </editor-fold>
                 
                 // <editor-fold desc="03">
+                if (odds03 == null) continue; 
                 String key03 = "03: " + decimalFormat.format(odds03); 
                 filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key03)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1055,6 +1102,7 @@ public class GeneralReportServiceImpl {
                 // </editor-fold>
                 
                 // <editor-fold desc="04">
+                if (odds04 == null) continue; 
                 String key04 = "04: " + decimalFormat.format(odds04); 
                 filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key04)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1076,6 +1124,7 @@ public class GeneralReportServiceImpl {
                 // </editor-fold>
                 
                 // <editor-fold desc="05">
+                if (odds05 == null) continue; 
                 String key05 = "05: " + decimalFormat.format(odds05); 
                 filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key05)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1097,6 +1146,7 @@ public class GeneralReportServiceImpl {
                 // </editor-fold>
                 
                 // <editor-fold desc="06">
+                if (odds06 == null) continue; 
                 String key06 = "06: " + decimalFormat.format(odds06); 
                 filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key06)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1118,6 +1168,7 @@ public class GeneralReportServiceImpl {
                 // </editor-fold>
                 
                 // <editor-fold desc="07">
+                if (odds07 == null) continue; 
                 String key07 = "07: " + decimalFormat.format(odds07); 
                 filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key07)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1235,7 +1286,7 @@ public class GeneralReportServiceImpl {
         
         for(Football record : records) {
             if ("202008".equals(record.getMatchIDinofficial().substring(0, 6))) continue; 
-            if (record.getHadodds() == null) continue; 
+            if (record.getCrsodds() == null) continue; 
             if (record.getResults() == null) continue; 
             if (record.getResults().getHAD()== null) continue; 
             GeneralResult newRecord = new GeneralResult();
@@ -1250,6 +1301,7 @@ public class GeneralReportServiceImpl {
 
                 odds = getRoundTo5(odds); 
 
+                if (odds == null) continue; 
                 String key = decimalFormat.format(odds); 
                 List<GeneralResult> filteredAnswer = answer.stream().filter(func -> func.getKey().equals(key)).collect(Collectors.toList());
                 if (filteredAnswer.size() > 0)
@@ -1306,6 +1358,31 @@ public class GeneralReportServiceImpl {
         }
         
         return answer; 
+    }
+    
+    public List<SuggestBuyRecord> getSuggestBuyRecord(String category, String sortingField) {
+        SuggestBuyRecordHandler handler = new SuggestBuyRecordHandler(); 
+        
+        if ("noResult".equals(sortingField)) {
+            return handler.GetAll(category).stream()
+                .filter(func -> func.getMatchResult().equals(""))
+                .sorted(Comparator.comparing(SuggestBuyRecord::getMatchIDinofficial)
+                        .thenComparing(SuggestBuyRecord::getSubCategory)
+                )
+                .collect(Collectors.toList()); 
+        } else if ("matchIDinofficial".equals(sortingField)) {
+            return handler.GetAll(category).stream()
+                .sorted(Comparator.comparing(SuggestBuyRecord::getMatchIDinofficial)
+                        .thenComparing(SuggestBuyRecord::getSubCategory)
+                )
+                .collect(Collectors.toList()); 
+        } else {
+            return handler.GetAll(category).stream()
+                .sorted(Comparator.comparing(SuggestBuyRecord::getSubCategory)
+                        .thenComparing(SuggestBuyRecord::getMatchIDinofficial)
+                )
+                .collect(Collectors.toList()); 
+        }
     }
     
 }

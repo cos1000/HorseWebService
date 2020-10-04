@@ -18,9 +18,10 @@
             Jockey Club Report Menu
     </h1>
     <table class="tg">
-        <tr><th width="400">Name</th></tr>
-        <tr><td><a href="<c:url value='/football' />" >Football</a></td></tr>
-        <tr><td><a href="<c:url value='/football/export' />" >Export Football Full List</a></td></tr>
+        <tr><th width="400">名稱</th></tr>
+        <tr><td><a href="<c:url value='/report/suggestBuyRecord/Matt_suggest_01/matchIDinofficial' />" >自訂建議 - Matt 01</a></td></tr>
+        <!--tr><td><a href="<c:url value='/football' />" >Football</a></td></tr-->
+        <!--tr><td><a href="<c:url value='/football/export' />" >Export Football Full List</a></td></tr-->
         <tr><td><a href="<c:url value='/report/goalHigh' />" >入球大的報表</a></td></tr>
         <tr><td><a href="<c:url value='/report/goalLow' />" >入球細的報表</a></td></tr>
         <tr><td><a href="<c:url value='/report/firstGoalHigh' />" >半場入球大的報表</a></td></tr>

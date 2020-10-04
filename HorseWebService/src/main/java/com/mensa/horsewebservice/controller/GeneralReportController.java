@@ -7,6 +7,7 @@ package com.mensa.horsewebservice.controller;
 
 import com.mensa.horsewebservice.service.GeneralReportServiceImpl;
 import com.mensa.horsewebservice.model.Football.Report.GeneralResult; 
+import com.mensa.horsewebservice.model.Football.SuggestBuyRecord;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -99,7 +100,7 @@ public class GeneralReportController {
         
     @RequestMapping(value = "/report/firstGoalLow", method = RequestMethod.GET)
     public String firstGoalLow(Model model) {
-        List<GeneralResult> records = this.service.getGoalLow(); 
+        List<GeneralResult> records = this.service.getFirstGoalLow(); 
         int numberOfRecord = 0; 
         int winNumberOfRecord = 0; 
         int lostNumberOfRecord = 0; 
@@ -375,6 +376,22 @@ public class GeneralReportController {
         model.addAttribute("winNumberOfRecord", winNumberOfRecord);
         model.addAttribute("lostNumberOfRecord", lostNumberOfRecord);
         return "generalReport";
+    }
+
+    @RequestMapping("/report/suggestBuyRecord/{category}/{sortingField}")
+    public String suggestBuyRecord(@PathVariable String category, @PathVariable String sortingField, Model model) {
+        List<SuggestBuyRecord> records = this.service.getSuggestBuyRecord(category, sortingField); 
+        int numberOfRecord = records.size(); 
+        BigDecimal accWinPrice = BigDecimal.ZERO; 
+        
+        for(SuggestBuyRecord record : records) {
+            accWinPrice = accWinPrice.add(record.getWinPrice()); 
+            record.setAccWinPrice(accWinPrice);
+        }
+        model.addAttribute("title", "自訂建議買賣 - " + category);
+        model.addAttribute("records", records);
+        model.addAttribute("numberOfRecord", numberOfRecord);
+        return "suggestBuyRecord";
     }
 
     

@@ -28,13 +28,13 @@
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:6001/horse_trading"/>
       <property name="javax.persistence.jdbc.user" value="matt"/>
       <property name="javax.persistence.jdbc.password" value="workflow"/>
-      <property name="hibernate.show_sql" value="true"/>
+      <!-- property name="hibernate.show_sql" value="true"/ -->
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.connection.pool_size" value="10"/>
       <property name="hibernate.order_inserts" value="true"/>
       <property name="hibernate.order_updates" value="true"/>
       <!-- property name="hibernate.jdbc.batch_size" value="1000"/ -->
-      <property name="logging.level.org.hibernate.SQL" value="INFO"/>
+      <!-- property name="logging.level.org.hibernate.SQL" value="INFO"/ -->
     </properties>
   </persistence-unit>
 </persistence>

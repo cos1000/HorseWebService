@@ -81,7 +81,16 @@ public class ImportScheduler implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        System.out.println("Start contextDestroyed");
+        log.info("Start contextDestroyed");
         scheduler.shutdownNow(); 
+        try {
+            scheduler.awaitTermination(7, TimeUnit.SECONDS);
+        } catch (Exception ex) {
+            log.error("Scheduler awaitTermination Error: ", ex);
+        }
+        log.info("Finished contextDestroyed"); 
+        System.out.println("Finished contextDestroyed");
     }
     
     public class ImportJob implements Runnable {
@@ -105,7 +114,10 @@ public class ImportScheduler implements ServletContextListener {
                     log.info("" + records.length);
                     break; 
                 } catch (Exception e) {
-                    log.error(contentJson, e); 
+                    if ((contentJson != null) && (contentJson.indexOf("Cookies must be enabled in order to view this page.") < 0))
+                    {
+                        log.error(contentJson, e); 
+                    }
                     contentJson = downloader.GetResponseFromUrl(UrlAll); 
                     if (checkError >= 9) currentDay = -1; 
                 }
@@ -115,14 +127,14 @@ public class ImportScheduler implements ServletContextListener {
             for (int counter = 0; counter < records.length; counter++) {
                 try {
                     Thread.sleep(1000);
-log.info("Step 01"); 
+//log.info("Step 01"); 
                     Football football = footballHandler.Get(records[counter]); 
-log.info("Step 02"); 
+//log.info("Step 02"); 
                     if (football == null) {
-log.info("Step 03"); 
-log.info(records[counter].getMatchID()); 
+//log.info("Step 03"); 
+//log.info(records[counter].getMatchID()); 
                         contentJson = downloader.GetResponseFromUrl(UrlOne + records[counter].getMatchID()); 
-log.info("Step 04"); 
+//log.info("Step 04"); 
 //log.info(contentJson); 
                         Football[] actualRecords = null; 
                         for (int checkError = 0; checkError < 10; checkError++) {
@@ -130,17 +142,22 @@ log.info("Step 04");
                                 actualRecords = gson.fromJson(contentJson, Football[].class); 
                                 break; 
                             } catch (Exception e) {
-                                log.info(contentJson); 
-                                log.error(records[counter].getMatchID(), e);
+                                if ((contentJson != null) && (contentJson.indexOf("Cookies must be enabled in order to view this page.") < 0))
+                                {
+                                    log.info(contentJson); 
+                                    log.error(records[counter].getMatchID(), e);
+                                } else {
+                                    log.error("Exchange to ActualRecords Error. Waiting 30 second."); 
+                                }
                                 Thread.sleep(30000);
                                 contentJson = downloader.GetResponseFromUrl(UrlOne + records[counter].getMatchID()); 
                                 if (checkError >= 9) currentDay = -1; 
                             }                                
                         }
                         if (actualRecords == null) continue; 
-log.info("Step 05"); 
+//log.info("Step 05"); 
                         Football actualFootball = null; 
-log.info("Step 06"); 
+//log.info("Step 06"); 
                         for (int counter2 = 0; counter2 < actualRecords.length; counter2++)
                         {
                             actualFootball = actualRecords[counter2];
@@ -150,8 +167,8 @@ log.info("Step 06");
                             }
                         }
 
-log.info("Step 07"); 
-log.info(actualFootball.getMatchID()); 
+//log.info("Step 07"); 
+//log.info(actualFootball.getMatchID()); 
                         // <editor-fold desc="Coupon">
                         if (actualFootball.getCoupon() != null) {
                             CouponHandler couponHandler = new CouponHandler(); 
@@ -167,7 +184,7 @@ log.info(actualFootball.getMatchID());
                             }
                         }
                         // </editor-fold>
-log.info("Step 08"); 
+//log.info("Step 08"); 
                         // <editor-fold desc="League">
                         if (actualFootball.getLeague() != null) {
                             LeagueHandler leagueHandler = new LeagueHandler(); 
@@ -182,7 +199,7 @@ log.info("Step 08");
                             }
                         }
                         // </editor-fold>
-log.info("Step 09"); 
+//log.info("Step 09"); 
                         // <editor-fold desc="Home Team">
                         if (actualFootball.getHomeTeam() != null) {
                             TeamHandler teamHandler = new TeamHandler(); 
@@ -198,7 +215,7 @@ log.info("Step 09");
                             }
                         }
                         // </editor-fold>
-log.info("Step 10"); 
+//log.info("Step 10"); 
                         // <editor-fold desc="Away Team">
                         if (actualFootball.getAwayTeam() != null) {
                             TeamHandler teamHandler = new TeamHandler(); 
@@ -214,7 +231,7 @@ log.info("Step 10");
                             }
                         }
                         // </editor-fold>
-log.info("Step 11"); 
+//log.info("Step 11"); 
                         // <editor-fold desc="Corner High Low">
                         if (actualFootball.getChlodds() != null) {
                             CornerHighLowHandler cornerHighLowHandler = new CornerHighLowHandler(); 
@@ -232,7 +249,7 @@ log.info("Step 11");
                             if (cornerHighLow != null) actualFootball.setChlodds(cornerHighLow);
                         }
                         // </editor-fold>
-log.info("Step 12"); 
+//log.info("Step 12"); 
                         // <editor-fold desc="Correct Score">
                         if (actualFootball.getCrsodds() != null) {
                             CorrectScoreHandler correctScoreHandler = new CorrectScoreHandler(); 
@@ -242,7 +259,7 @@ log.info("Step 12");
                             if (correctScore != null) actualFootball.setCrsodds(correctScore);
                         }
                         // </editor-fold>
-log.info("Step 13"); 
+//log.info("Step 13"); 
                         // <editor-fold desc="First Correct Score">
                         if (actualFootball.getFcsodds() != null) {
                             FirstCorrectScoreHandler firstCorrectScoreHandler = new FirstCorrectScoreHandler(); 
@@ -252,7 +269,7 @@ log.info("Step 13");
                             if (firstCorrectScore != null) actualFootball.setFcsodds(firstCorrectScore);
                         }
                         // </editor-fold>
-log.info("Step 14"); 
+//log.info("Step 14"); 
                         // <editor-fold desc="First Goal High Low">
                         if (actualFootball.getFhlodds() != null) {
                             FirstGoalHighLowHandler firstGoalHighLowHandler = new FirstGoalHighLowHandler(); 
@@ -269,7 +286,7 @@ log.info("Step 14");
                             if (firstGoalHighLow != null) actualFootball.setFhlodds(firstGoalHighLow);
                         }
                         // </editor-fold>
-log.info("Step 15"); 
+//log.info("Step 15"); 
                         // <editor-fold desc="First Home Away Draw">
                         if (actualFootball.getFhaodds() != null) {
                             FirstHomeAwayDrawHandler firstHomeAwayDrawHandler = new FirstHomeAwayDrawHandler(); 
@@ -279,7 +296,7 @@ log.info("Step 15");
                             if (firstHomeAwayDraw != null) actualFootball.setFhaodds(firstHomeAwayDraw);
                         }
                         // </editor-fold>
-log.info("Step 16"); 
+//log.info("Step 16"); 
                         // <editor-fold desc="First Team To Score">
                         if (actualFootball.getFtsodds() != null) {
                             FirstTeamToScoreHandler firstTeamToScoreHandler = new FirstTeamToScoreHandler(); 
@@ -289,7 +306,7 @@ log.info("Step 16");
                             if (firstTeamToScore != null) actualFootball.setFtsodds(firstTeamToScore);
                         }
                         // </editor-fold>
-log.info("Step 17"); 
+//log.info("Step 17"); 
                         // <editor-fold desc="Goal High Low">
                         if (actualFootball.getHilodds() != null) {
                             GoalHighLowHandler goalHighLowHandler = new GoalHighLowHandler(); 
@@ -306,7 +323,7 @@ log.info("Step 17");
                             if (goalHighLow != null) actualFootball.setHilodds(goalHighLow);
                         }
                         // </editor-fold>
-log.info("Step 18"); 
+//log.info("Step 18"); 
                         // <editor-fold desc="Half Full Home Away Draw">
                         if (actualFootball.getHftodds() != null) {
                             HalfFullHomeAwayDrawHandler halfFullHomeAwayDrawHandler = new HalfFullHomeAwayDrawHandler(); 
@@ -316,7 +333,7 @@ log.info("Step 18");
                             if (halfFullHomeAwayDraw != null) actualFootball.setHftodds(halfFullHomeAwayDraw);
                         }
                         // </editor-fold>
-log.info("Step 19"); 
+//log.info("Step 19"); 
                         // <editor-fold desc="Handicap">
                         if (actualFootball.getHdcodds() != null) {
                             HandicapHandler handicapHandler = new HandicapHandler(); 
@@ -326,7 +343,7 @@ log.info("Step 19");
                             if (handicap != null) actualFootball.setHdcodds(handicap);
                         }
                         // </editor-fold>
-log.info("Step 20"); 
+//log.info("Step 20"); 
                         // <editor-fold desc="Handicap Home Away Draw">
                         if (actualFootball.getHhaodds() != null) {
                             HandicapHomeAwayDrawHandler handicapHomeAwayDrawHandler = new HandicapHomeAwayDrawHandler(); 
@@ -336,7 +353,7 @@ log.info("Step 20");
                             if (handicapHomeAwayDraw != null) actualFootball.setHhaodds(handicapHomeAwayDraw);
                         }
                         // </editor-fold>
-log.info("Step 21"); 
+//log.info("Step 21"); 
                         // <editor-fold desc="Home Away Draw">
                         if (actualFootball.getHadodds() != null) {
                             HomeAwayDrawHandler homeAwayDrawHandler = new HomeAwayDrawHandler(); 
@@ -346,7 +363,7 @@ log.info("Step 21");
                             if (homeAwayDraw != null) actualFootball.setHadodds(homeAwayDraw);
                         }
                         // </editor-fold>
-log.info("Step 22"); 
+//log.info("Step 22"); 
                         // <editor-fold desc="Odd Even">
                         if (actualFootball.getOoeodds() != null) {
                             OddEvenHandler oddEvenHandler = new OddEvenHandler(); 
@@ -356,7 +373,7 @@ log.info("Step 22");
                             if (oddEven != null) actualFootball.setOoeodds(oddEven);
                         }
                         // </editor-fold>
-log.info("Step 23"); 
+//log.info("Step 23"); 
                         // <editor-fold desc="Total Goal">
                         if (actualFootball.getTtgodds() != null) {
                             TotalGoalHandler totalGoalHandler = new TotalGoalHandler(); 
@@ -367,7 +384,7 @@ log.info("Step 23");
                         }
                         // </editor-fold>
 
-log.info("Step 99"); 
+//log.info("Step 99"); 
                         actualFootball.setCreated_at(LocalDateTime.now());
                         actualFootball.setUpdated_at(LocalDateTime.now());
                         if (footballHandler.Create(actualFootball)) {
@@ -381,7 +398,7 @@ log.info("Step 99");
                     currentDay = -1; 
                 }
             }
-log.info("Step 101");
+//log.info("Step 101");
             FootballResultRecord[] footballResultRecords = null; 
             contentJson = downloader.GetResponseFromUrl(UrlResult); 
             for (int checkError = 0; checkError < 10; checkError++) {
@@ -395,7 +412,7 @@ log.info("Step 101");
                     if (checkError >= 9) currentDay = -1; 
                 }
             }
-log.info("Step 102");
+//log.info("Step 102");
             for (int counter = 0; counter < footballResultRecords.length; counter++) {
                 if (footballResultRecords[counter] != null && "ActiveMatches".equals(footballResultRecords[counter].getName())) {
                     records = footballResultRecords[counter].getMatches(); 
@@ -404,6 +421,7 @@ log.info("Step 102");
                             if (records[counter2] == null || records[counter2].getResults() == null || records[counter2].getResults().getCRS() == null || records[counter2].getResults().getCRS().equals("-")) continue; 
                             Football football = footballHandler.Get(records[counter2]);
                             if (football != null) {
+                                if (football.getResults() != null && football.getResults().getCRS() != null && !football.getResults().getCRS().equals("-")) continue; 
                                 football.getResults().setCRS(records[counter2].getResults().getCRS());
                                 football.getResults().setFCS(records[counter2].getResults().getFCS());
                                 football.getResults().setFHA(records[counter2].getResults().getFHA());
@@ -417,17 +435,20 @@ log.info("Step 102");
                                 football.setCornerresult(records[counter2].getCornerresult());
                                 footballHandler.Update(football); 
                             }
-                        } catch (Exception e) {
-                            log.error("Counter: " + counter2, e);
+                        } catch (Exception ex) {
+                            log.error("Counter: " + counter2, ex);
                             currentDay = -1; 
                         }
                         
                     }
                 }
             }
-log.info("Step 103");            
-            Exporter exporter = new Exporter(); 
-            exporter.export(); 
+//log.info("Step 103");
+            //Exporter exporter = new Exporter(); 
+            //exporter.export(); 
+            ImportSuggestBuyRecord importer = new ImportSuggestBuyRecord(); 
+            importer.importSuggestBuyRecord();
+log.info("Imported"); 
         }
     }
 }

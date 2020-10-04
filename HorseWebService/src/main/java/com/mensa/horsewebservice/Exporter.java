@@ -63,7 +63,7 @@ public class Exporter {
                     }
                     
                     if (footballList.get(counter).getHadodds() != null) {
-log.info("Export Step 01");
+//log.info("Export Step 01");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHadodds().getH().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHadodds().getA().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHadodds().getD().replace("100@", ""));
@@ -72,7 +72,7 @@ log.info("Export Step 01");
                     }
 
                     if (footballList.get(counter).getFhaodds() != null) {
-log.info("Export Step 02");
+//log.info("Export Step 02");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhaodds().getH().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhaodds().getA().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhaodds().getD().replace("100@", ""));
@@ -81,7 +81,7 @@ log.info("Export Step 02");
                     }
 
                     if (footballList.get(counter).getHhaodds() != null) {
-log.info("Export Step 03");
+//log.info("Export Step 03");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHhaodds().getHG().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHhaodds().getAG().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHhaodds().getH().replace("100@", ""));
@@ -92,7 +92,7 @@ log.info("Export Step 03");
                     }
 
                     if (footballList.get(counter).getHdcodds() != null) {
-log.info("Export Step 04");
+//log.info("Export Step 04");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHdcodds().getHG().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHdcodds().getAG().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHdcodds().getH().replace("100@", ""));
@@ -102,7 +102,7 @@ log.info("Export Step 04");
                     }
 
                     if (footballList.get(counter).getHilodds() != null && footballList.get(counter).getHilodds().getLINELIST() != null && footballList.get(counter).getHilodds().getLINELIST().size() >= 3) {
-log.info("Export Step 05");
+//log.info("Export Step 05");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(0).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(0).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(0).getH().replace("100@", ""));
@@ -111,7 +111,7 @@ log.info("Export Step 05");
                     }
 
                     if (footballList.get(counter).getHilodds() != null && footballList.get(counter).getHilodds().getLINELIST() != null && footballList.get(counter).getHilodds().getLINELIST().size() >= 3) {
-log.info("Export Step 06");
+//log.info("Export Step 06");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(1).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(1).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(1).getH().replace("100@", ""));
@@ -120,7 +120,7 @@ log.info("Export Step 06");
                     }
 
                     if (footballList.get(counter).getHilodds() != null && footballList.get(counter).getHilodds().getLINELIST() != null && footballList.get(counter).getHilodds().getLINELIST().size() >= 3) {
-log.info("Export Step 07");
+//log.info("Export Step 07");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(2).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(2).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHilodds().getLINELIST().get(2).getH().replace("100@", ""));
@@ -129,7 +129,7 @@ log.info("Export Step 07");
                     }
 
                     if (footballList.get(counter).getFhlodds() != null && footballList.get(counter).getFhlodds().getLINELIST() != null && footballList.get(counter).getFhlodds().getLINELIST().size() >= 3) {
-log.info("Export Step 08");
+//log.info("Export Step 08");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(0).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(0).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(0).getH().replace("100@", ""));
@@ -138,7 +138,7 @@ log.info("Export Step 08");
                     }
 
                     if (footballList.get(counter).getFhlodds() != null && footballList.get(counter).getFhlodds().getLINELIST() != null && footballList.get(counter).getFhlodds().getLINELIST().size() >= 3) {
-log.info("Export Step 09");
+//log.info("Export Step 09");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(1).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(1).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(1).getH().replace("100@", ""));
@@ -147,7 +147,7 @@ log.info("Export Step 09");
                     }
 
                     if (footballList.get(counter).getFhlodds() != null && footballList.get(counter).getFhlodds().getLINELIST() != null && footballList.get(counter).getFhlodds().getLINELIST().size() >= 3) {
-log.info("Export Step 10");
+//log.info("Export Step 10");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(2).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(2).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFhlodds().getLINELIST().get(2).getH().replace("100@", ""));
@@ -156,7 +156,7 @@ log.info("Export Step 10");
                     }
 
                     if (footballList.get(counter).getChlodds() != null && footballList.get(counter).getChlodds().getLINELIST() != null && footballList.get(counter).getChlodds().getLINELIST().size() >= 3) {
-log.info("Export Step 11");
+//log.info("Export Step 11");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(0).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(0).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(0).getH().replace("100@", ""));
@@ -165,7 +165,7 @@ log.info("Export Step 11");
                     }
 
                     if (footballList.get(counter).getChlodds() != null && footballList.get(counter).getChlodds().getLINELIST() != null && footballList.get(counter).getChlodds().getLINELIST().size() >= 3) {
-log.info("Export Step 12");
+//log.info("Export Step 12");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(1).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(1).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(1).getH().replace("100@", ""));
@@ -174,7 +174,7 @@ log.info("Export Step 12");
                     }
 
                     if (footballList.get(counter).getChlodds() != null && footballList.get(counter).getChlodds().getLINELIST() != null && footballList.get(counter).getChlodds().getLINELIST().size() >= 3) {
-log.info("Export Step 13");
+//log.info("Export Step 13");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(2).getLINE().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(2).getL().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getChlodds().getLINELIST().get(2).getH().replace("100@", ""));
@@ -183,7 +183,7 @@ log.info("Export Step 13");
                     }
 
                     if (footballList.get(counter).getCrsodds() != null) {
-log.info("Export Step 14");
+//log.info("Export Step 14");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getCrsodds().getS0100().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getCrsodds().getS0200().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getCrsodds().getS0201().replace("100@", ""));
@@ -222,7 +222,7 @@ log.info("Export Step 14");
                     }
 
                     if (footballList.get(counter).getFcsodds() != null) {
-log.info("Export Step 14");
+//log.info("Export Step 14");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFcsodds().getS0100().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFcsodds().getS0200().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFcsodds().getS0201().replace("100@", ""));
@@ -261,7 +261,7 @@ log.info("Export Step 14");
                     }
 
                     if (footballList.get(counter).getFtsodds() != null) {
-log.info("Export Step 15");
+//log.info("Export Step 15");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFtsodds().getH().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFtsodds().getA().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getFtsodds().getN().replace("100@", ""));
@@ -270,7 +270,7 @@ log.info("Export Step 15");
                     }
 
                     if (footballList.get(counter).getTtgodds() != null) {
-log.info("Export Step 16");
+//log.info("Export Step 16");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getTtgodds().getP1().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getTtgodds().getP2().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getTtgodds().getP3().replace("100@", ""));
@@ -283,7 +283,7 @@ log.info("Export Step 16");
                     }
 
                     if (footballList.get(counter).getOoeodds() != null) {
-log.info("Export Step 17");
+//log.info("Export Step 17");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getOoeodds().getO().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getOoeodds().getE().replace("100@", ""));
                     } else {
@@ -291,7 +291,7 @@ log.info("Export Step 17");
                     }
 
                     if (footballList.get(counter).getHftodds() != null) {
-log.info("Export Step 18");
+//log.info("Export Step 18");
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHftodds().getHH().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHftodds().getHA().replace("100@", ""));
                         currentRow.createCell(cellCounter++).setCellValue(footballList.get(counter).getHftodds().getHD().replace("100@", ""));
@@ -315,7 +315,7 @@ log.info("Export Step 18");
                     workbook.write(fileOut);
                 }
             }
-            
+log.info("Exported");             
             return true; 
         } catch (Exception e) {
             log.error("Error", e); 
