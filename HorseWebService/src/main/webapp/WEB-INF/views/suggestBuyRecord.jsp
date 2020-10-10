@@ -23,9 +23,9 @@
     </head>
     <body>
 <h1>${title}</h1><br>
-<h3><a href="<c:url value='/report/suggestBuyRecord/Matt_suggest_01/matchIDinofficial' />" >以比賽次序排序</a></h3><br>
-<h3><a href="<c:url value='/report/suggestBuyRecord/Matt_suggest_01/subcategory' />" >以建議種類排序</a></h3><br>
-<h3><a href="<c:url value='/report/suggestBuyRecord/Matt_suggest_01/noResult' />" >只顯示未有結果的建議</a></h3><br>
+<h3><a href="<c:url value='/report/suggestBuyRecord/${category}/matchIDinofficial' />" >以比賽次序排序</a></h3><br>
+<h3><a href="<c:url value='/report/suggestBuyRecord/${category}/subcategory' />" >以建議種類排序</a></h3><br>
+<h3><a href="<c:url value='/report/suggestBuyRecord/${category}/noResult' />" >只顯示未有結果的建議</a></h3><br>
 <c:if test="${!empty records}">
 	<table class="tg">
             <tr>

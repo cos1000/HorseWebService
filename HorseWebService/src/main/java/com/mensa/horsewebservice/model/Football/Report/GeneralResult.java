@@ -22,9 +22,11 @@ public class GeneralResult {
     private int lostNumberOfRecord; 
     private int winPercentage; 
     private int lostPercentage; 
+    private BigDecimal winPrice; 
     private int accNumberOfRecord; 
     private int accWinNumberOfRecord; 
     private int accLostNumberOfRecord; 
     private int accWinPercentage; 
     private int accLostPercentage; 
+    private BigDecimal accWinPrice; 
 }

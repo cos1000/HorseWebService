@@ -20,6 +20,7 @@
     <table class="tg">
         <tr><th width="400">名稱</th></tr>
         <tr><td><a href="<c:url value='/report/suggestBuyRecord/Matt_suggest_01/matchIDinofficial' />" >自訂建議 - Matt 01</a></td></tr>
+        <tr><td><a href="<c:url value='/report/suggestBuyRecord/Matt_suggest_02/matchIDinofficial' />" >自訂建議 - Matt 02</a></td></tr>
         <!--tr><td><a href="<c:url value='/football' />" >Football</a></td></tr-->
         <!--tr><td><a href="<c:url value='/football/export' />" >Export Football Full List</a></td></tr-->
         <tr><td><a href="<c:url value='/report/goalHigh' />" >入球大的報表</a></td></tr>

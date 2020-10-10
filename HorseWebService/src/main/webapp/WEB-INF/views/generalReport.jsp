@@ -16,7 +16,7 @@
         <title>${title}</title>
 	<style type="text/css">
 		.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
-		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+		.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;}
 		.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
 		.tg .tg-4eph{background-color:#f9f9f9}
 	</style>
@@ -32,25 +32,34 @@
                 <td>輸波總數</td>
                 <td>勝出比率</td>
                 <td>輸波比率</td>
+                <td>勝出金額($10)</td>
                 <td>累計總數</td>
                 <td>累計勝出總數</td>
                 <td>累計輸波總數</td>
                 <td>累計勝出比率</td>
                 <td>累計輸波比率</td>
+                <td>累計勝出金額($10)</td>
             </tr>
 	<c:forEach items="${records}" var="record">
-		<tr>
+<c:if test="${record.winPrice > 0}">
+		<tr style="background-color: #0f0">
+</c:if>
+<c:if test="${record.winPrice <= 0}">
+		<tr style="background-color: #0ff">
+</c:if>
                     <td>${record.description}</td>
                     <td>${record.numberOfRecord}</td>
                     <td>${record.winNumberOfRecord}</td>
                     <td>${record.lostNumberOfRecord}</td>
                     <td>${record.winPercentage}%</td>
                     <td>${record.lostPercentage}%</td>
+                    <td>${record.winPrice}</td>
                     <td>${record.accNumberOfRecord}</td>
                     <td>${record.accWinNumberOfRecord}</td>
                     <td>${record.accLostNumberOfRecord}</td>
                     <td>${record.accWinPercentage}%</td>
                     <td>${record.accLostPercentage}%</td>
+                    <td>${record.accWinPrice}</td>
 		</tr>
 	</c:forEach>
             <tr>
@@ -58,6 +67,8 @@
                 <td>${numberOfRecord}</td>
                 <td>${winNumberOfRecord}</td>
                 <td>${lostNumberOfRecord}</td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -14,5 +14,7 @@ public class ImportSuggestBuyRecord {
     {
         ImportSuggestBuyRecord01 import01 = new ImportSuggestBuyRecord01(); 
         import01.importSuggestBuyRecord();
+        ImportSuggestBuyRecord02 import02 = new ImportSuggestBuyRecord02(); 
+        import02.importSuggestBuyRecord();
     }
 }

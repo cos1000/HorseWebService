@@ -388,6 +388,7 @@ public class GeneralReportController {
             accWinPrice = accWinPrice.add(record.getWinPrice()); 
             record.setAccWinPrice(accWinPrice);
         }
+        model.addAttribute("category", category);
         model.addAttribute("title", "自訂建議買賣 - " + category);
         model.addAttribute("records", records);
         model.addAttribute("numberOfRecord", numberOfRecord);

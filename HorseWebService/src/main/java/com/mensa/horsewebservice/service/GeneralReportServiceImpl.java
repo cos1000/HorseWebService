@@ -36,6 +36,7 @@ public class GeneralReportServiceImpl {
     private static Logger log = LoggerFactory.getLogger(GeneralReportServiceImpl.class);
     private FootballHandler recordHandler;
     private DecimalFormat decimalFormat = new DecimalFormat("000.00");
+    private final BigDecimal basePrice = new BigDecimal("10"); 
     
     public void setFootballHandler(FootballHandler handler)
     {
@@ -70,6 +71,8 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             for(GoalHighLowDetail detail : record.getHilodds().getLINELIST())
             {
@@ -108,8 +111,10 @@ public class GeneralReportServiceImpl {
                     if (result.compareTo(highDefine) > 0)
                     {
                         newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                        newRecord.setWinPrice(basePrice.multiply(new BigDecimal(detail.getH().substring(4))).subtract(basePrice).add(newRecord.getWinPrice()));
                     } else {
                         newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                        newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                     }
                     
                 } catch (Exception ex) {
@@ -122,6 +127,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String define = "";
             String key = "";
 
@@ -138,15 +144,18 @@ public class GeneralReportServiceImpl {
                     numberOfRecord = 0; 
                     winNumberOfRecord = 0; 
                     lostNumberOfRecord = 0; 
+                    winPrice = BigDecimal.ZERO; 
                     define = record.getKey().substring(0, 3);
                 }
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -183,6 +192,8 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             for(GoalHighLowDetail detail : record.getHilodds().getLINELIST())
             {
@@ -221,8 +232,10 @@ public class GeneralReportServiceImpl {
                     if (result.compareTo(lowDefine) < 0)
                     {
                         newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                        newRecord.setWinPrice(basePrice.multiply(new BigDecimal(detail.getL().substring(4))).subtract(basePrice).add(newRecord.getWinPrice()));
                     } else {
                         newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                        newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                     }
                     
                 } catch (Exception ex) {
@@ -235,6 +248,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String define = "";
             String key = "";
 
@@ -251,15 +265,18 @@ public class GeneralReportServiceImpl {
                     numberOfRecord = 0; 
                     winNumberOfRecord = 0; 
                     lostNumberOfRecord = 0; 
+                    winPrice = BigDecimal.ZERO; 
                     define = record.getKey().substring(0, 3);
                 }
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -296,6 +313,8 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             for(FirstGoalHighLowDetail detail : record.getFhlodds().getLINELIST())
             {
@@ -338,8 +357,10 @@ public class GeneralReportServiceImpl {
                     if (result.compareTo(highDefine) > 0)
                     {
                         newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                        newRecord.setWinPrice(basePrice.multiply(new BigDecimal(detail.getH().substring(4))).subtract(basePrice).add(newRecord.getWinPrice()));
                     } else {
                         newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                        newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                     }
                     
                 } catch (Exception ex) {
@@ -352,6 +373,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String define = "";
             String key = "";
 
@@ -368,15 +390,18 @@ public class GeneralReportServiceImpl {
                     numberOfRecord = 0; 
                     winNumberOfRecord = 0; 
                     lostNumberOfRecord = 0; 
+                    winPrice = BigDecimal.ZERO; 
                     define = record.getKey().substring(0, 3);
                 }
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -413,6 +438,8 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             for(FirstGoalHighLowDetail detail : record.getFhlodds().getLINELIST())
             {
@@ -454,8 +481,10 @@ public class GeneralReportServiceImpl {
                     if (result.compareTo(lowDefine) < 0)
                     {
                         newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                        newRecord.setWinPrice(basePrice.multiply(new BigDecimal(detail.getL().substring(4))).subtract(basePrice).add(newRecord.getWinPrice()));
                     } else {
                         newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                        newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                     }
                     
                 } catch (Exception ex) {
@@ -468,6 +497,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String define = "";
             String key = "";
 
@@ -484,15 +514,18 @@ public class GeneralReportServiceImpl {
                     numberOfRecord = 0; 
                     winNumberOfRecord = 0; 
                     lostNumberOfRecord = 0; 
+                    winPrice = BigDecimal.ZERO; 
                     define = record.getKey().substring(0, 3);
                 }
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -528,6 +561,8 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             try {
                 BigDecimal odds; 
@@ -542,6 +577,7 @@ public class GeneralReportServiceImpl {
                 }
                 String result = record.getResults().getHAD(); 
 
+                BigDecimal orgOdds = odds; 
                 odds = getRoundTo5(odds); 
 
                 if (odds == null) continue; 
@@ -559,8 +595,10 @@ public class GeneralReportServiceImpl {
                 if (checkingValue.equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
             } catch (Exception ex) {
@@ -572,6 +610,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String key = "";
 
             List<GeneralResult> finalAnswer = new ArrayList<>(); 
@@ -586,10 +625,12 @@ public class GeneralReportServiceImpl {
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -625,6 +666,8 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             try {
                 BigDecimal odds; 
@@ -639,6 +682,7 @@ public class GeneralReportServiceImpl {
                 }
                 String result = record.getResults().getFHA(); 
 
+                BigDecimal orgOdds = odds; 
                 odds = getRoundTo5(odds); 
 
                 if (odds == null) continue; 
@@ -656,8 +700,10 @@ public class GeneralReportServiceImpl {
                 if (checkingValue.equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(odds).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
             } catch (Exception ex) {
@@ -669,6 +715,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String key = "";
 
             List<GeneralResult> finalAnswer = new ArrayList<>(); 
@@ -682,10 +729,12 @@ public class GeneralReportServiceImpl {
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -721,16 +770,20 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             try {
                 BigDecimal odds; 
                 BigDecimal handicap; 
                 String tempKey = ""; 
+                BigDecimal orgOdds; 
                 
                 if ("H".equals(checkingValue))
                 {
                     odds = new BigDecimal(record.getHhaodds().getH().substring(4)); 
                     handicap = new BigDecimal(record.getHhaodds().getHG().replace("+", "")); 
+                    orgOdds = odds; 
                     odds = getRoundTo5(odds); 
                     if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + handicap.toString() + ")"; 
@@ -738,12 +791,14 @@ public class GeneralReportServiceImpl {
                 {
                     odds = new BigDecimal(record.getHhaodds().getA().substring(4)); 
                     handicap = new BigDecimal(record.getHhaodds().getAG().replace("+", "")); 
+                    orgOdds = odds; 
                     odds = getRoundTo5(odds); 
                     if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + handicap.toString() + ")"; 
                 } else {
                     odds = new BigDecimal(record.getHhaodds().getD().substring(4)); 
                     handicap = new BigDecimal(record.getHhaodds().getHG().replace("+", "")); 
+                    orgOdds = odds; 
                     odds = getRoundTo5(odds); 
                     if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + handicap.toString() + ")"; 
@@ -799,8 +854,10 @@ public class GeneralReportServiceImpl {
                 if (checkingValue.equals(handicapResult))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
             } catch (Exception ex) {
@@ -812,6 +869,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String key = "";
 
             List<GeneralResult> finalAnswer = new ArrayList<>(); 
@@ -826,10 +884,12 @@ public class GeneralReportServiceImpl {
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -865,12 +925,15 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             try {
                 BigDecimal odds; 
                 BigDecimal handicap1; 
                 BigDecimal handicap2; 
                 String tempKey = ""; 
+                BigDecimal orgOdds; 
                 
                 if ("H".equals(checkingValue))
                 {
@@ -878,6 +941,7 @@ public class GeneralReportServiceImpl {
                     int indexOfHandicap = record.getHdcodds().getHG().indexOf("/"); 
                     handicap1 = new BigDecimal(record.getHdcodds().getHG().substring(0, indexOfHandicap).replace("+", "")); 
                     handicap2 = new BigDecimal(record.getHdcodds().getHG().substring(indexOfHandicap+1).replace("+", "")); 
+                    orgOdds = odds; 
                     odds = getRoundTo5(odds); 
                     if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + record.getHdcodds().getHG() + ")"; 
@@ -887,6 +951,7 @@ public class GeneralReportServiceImpl {
                     int indexOfHandicap = record.getHdcodds().getAG().indexOf("/"); 
                     handicap1 = new BigDecimal(record.getHdcodds().getAG().substring(0, indexOfHandicap).replace("+", "")); 
                     handicap2 = new BigDecimal(record.getHdcodds().getAG().substring(indexOfHandicap+1).replace("+", "")); 
+                    orgOdds = odds; 
                     odds = getRoundTo5(odds); 
                     if (odds == null) continue; 
                     tempKey = decimalFormat.format(odds) + " (" + record.getHdcodds().getHG() + ")"; 
@@ -950,8 +1015,10 @@ public class GeneralReportServiceImpl {
                 if (checkingValue.equals(handicapResult))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
             } catch (Exception ex) {
@@ -963,6 +1030,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String key = "";
 
             List<GeneralResult> finalAnswer = new ArrayList<>(); 
@@ -977,10 +1045,12 @@ public class GeneralReportServiceImpl {
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -1011,11 +1081,14 @@ public class GeneralReportServiceImpl {
             if (record.getTtgodds() == null) continue; 
             if (record.getResults() == null) continue; 
             if (record.getResults().getTTG()== null) continue; 
+            if ("RFD".equals(record.getResults().getTTG())) continue;
             GeneralResult newRecord = new GeneralResult();
             newRecord.setWinNumberOfRecord(0);
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             try {
                 BigDecimal odds01 = new BigDecimal(record.getTtgodds().getP1().substring(4)); ; 
@@ -1027,6 +1100,13 @@ public class GeneralReportServiceImpl {
                 BigDecimal odds07 = new BigDecimal(record.getTtgodds().getM7().substring(4)); ; 
                 BigDecimal result = new BigDecimal(record.getResults().getTTG().replace("+", "").replace("-", ""));
 
+                BigDecimal orgOdds01 = odds01; 
+                BigDecimal orgOdds02 = odds02; 
+                BigDecimal orgOdds03 = odds03; 
+                BigDecimal orgOdds04 = odds04; 
+                BigDecimal orgOdds05 = odds05; 
+                BigDecimal orgOdds06 = odds06; 
+                BigDecimal orgOdds07 = odds07; 
                 odds01 = getRoundTo5(odds01); 
                 odds02 = getRoundTo5(odds02); 
                 odds03 = getRoundTo5(odds03); 
@@ -1051,8 +1131,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(1).equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds01).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1073,8 +1155,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(2).equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds02).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1095,8 +1179,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(3).equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds03).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1117,8 +1203,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(4).equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds04).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1139,8 +1227,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(5).equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds05).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1161,8 +1251,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(6).equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds06).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1183,8 +1275,10 @@ public class GeneralReportServiceImpl {
                 if (BigDecimal.valueOf(7).compareTo(result) < 0)
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds07).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
                 // </editor-fold>
@@ -1200,6 +1294,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String key = "";
             String define = "";
 
@@ -1216,16 +1311,19 @@ public class GeneralReportServiceImpl {
                     numberOfRecord = 0; 
                     winNumberOfRecord = 0; 
                     lostNumberOfRecord = 0; 
+                    winPrice = BigDecimal.ZERO; 
                     define = record.getKey().substring(0, 2);
                 }
                 
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
@@ -1294,11 +1392,14 @@ public class GeneralReportServiceImpl {
             newRecord.setLostNumberOfRecord(0);
             newRecord.setAccWinNumberOfRecord(0);
             newRecord.setAccLostNumberOfRecord(0);
+            newRecord.setWinPrice(BigDecimal.ZERO);
+            newRecord.setAccWinPrice(BigDecimal.ZERO);
             
             try {
                 BigDecimal odds = getCorrectScoreOdds(checkingValue, record); 
                 String result = record.getResults().getCRS(); 
 
+                BigDecimal orgOdds = odds; 
                 odds = getRoundTo5(odds); 
 
                 if (odds == null) continue; 
@@ -1316,8 +1417,10 @@ public class GeneralReportServiceImpl {
                 if (checkingValue.equals(result))
                 {
                     newRecord.setWinNumberOfRecord(newRecord.getWinNumberOfRecord() + 1);
+                    newRecord.setWinPrice(basePrice.multiply(orgOdds).subtract(basePrice).add(newRecord.getWinPrice()));
                 } else {
                     newRecord.setLostNumberOfRecord(newRecord.getLostNumberOfRecord() + 1);
+                    newRecord.setWinPrice(newRecord.getWinPrice().subtract(basePrice));
                 }
 
             } catch (Exception ex) {
@@ -1329,6 +1432,7 @@ public class GeneralReportServiceImpl {
             int numberOfRecord = 0; 
             int winNumberOfRecord = 0; 
             int lostNumberOfRecord = 0; 
+            BigDecimal winPrice = BigDecimal.ZERO; 
             String key = "";
 
             List<GeneralResult> finalAnswer = new ArrayList<>(); 
@@ -1343,10 +1447,12 @@ public class GeneralReportServiceImpl {
                 numberOfRecord += record.getWinNumberOfRecord() + record.getLostNumberOfRecord(); 
                 winNumberOfRecord += record.getWinNumberOfRecord(); 
                 lostNumberOfRecord += record.getLostNumberOfRecord(); 
+                winPrice = winPrice.add(record.getWinPrice()); 
                 record.setNumberOfRecord(record.getWinNumberOfRecord() + record.getLostNumberOfRecord());
                 record.setAccNumberOfRecord(numberOfRecord);
                 record.setAccWinNumberOfRecord(winNumberOfRecord);
                 record.setAccLostNumberOfRecord(lostNumberOfRecord);
+                record.setAccWinPrice(winPrice);
                 record.setWinPercentage(100*record.getWinNumberOfRecord()/record.getNumberOfRecord());
                 record.setLostPercentage(100*record.getLostNumberOfRecord()/record.getNumberOfRecord());
                 record.setAccWinPercentage(100*record.getAccWinNumberOfRecord()/record.getAccNumberOfRecord());
